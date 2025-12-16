@@ -22,8 +22,6 @@ services=(
   "Marketplace/Pelanggan"
   "Marketplace/Order"
   "Marketplace/api-gateway"
-  "GenericService/command-service"
-  "GenericService/query-service"
   "Perpustakaan/Buku"
   "Perpustakaan/anggota"
   "Perpustakaan/Peminjaman"
