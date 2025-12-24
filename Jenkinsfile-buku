@@ -58,8 +58,7 @@ pipeline {
     
     post {
         always {
-            junit '**/target/surefire-reports/*.xml'
-            cleanWs()
+            junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
         }
         success {
             echo "✅ Buku Service CI/CD Pipeline Success!"
