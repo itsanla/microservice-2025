@@ -93,7 +93,7 @@ services:
 
   # Buku Service
   buku-service:
-    build: ./Buku
+    image: itsanla/buku:latest
     container_name: buku-service
     ports:
       - "8084:8084"
