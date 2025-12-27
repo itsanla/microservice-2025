@@ -14,6 +14,7 @@ services:
       - SPRING_DATA_MONGODB_USERNAME=${MONGODB_USER}
       - SPRING_DATA_MONGODB_PASSWORD=${MONGODB_PASSWORD}
       - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=${MONGODB_AUTH_DB:-admin}
+      - EUREKA_CLIENT_ENABLED=${EUREKA_CLIENT_ENABLED:-false}
     depends_on:
       mongodb:
         condition: service_healthy
