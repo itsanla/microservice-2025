@@ -149,7 +149,7 @@ open http://localhost:8761
 **1. Clone Repository**
 ```bash
 git clone <repository-url>
-cd arsitektur-berbasis-layanan-2025
+cd microservice-2025
 ```
 
 **2. Build All Services**
@@ -369,7 +369,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 **itsanla**
 - Docker Hub: [@itsanla](https://hub.docker.com/u/itsanla)
-- GitHub: [arsitektur-berbasis-layanan-2025](https://github.com/itsanla/arsitektur-berbasis-layanan-2025)
+- GitHub: [microservice-2025](https://github.com/itsanla/microservice-2025)
 
 ---
 

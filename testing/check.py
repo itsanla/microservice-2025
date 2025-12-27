@@ -1,7 +1,7 @@
 import subprocess
 import os
 import platform
-BASE_PATH = r"C:\Users\anlah\OneDrive\Documents\SEMESTER 5\Arsitektur Berbasis Layanan\arsitektur-berbasis-layanan-2025"
+BASE_PATH = r"C:\Users\anlah\OneDrive\Documents\SEMESTER 5\Arsitektur Berbasis Layanan\microservice-2025"
 
 services = [
     {
