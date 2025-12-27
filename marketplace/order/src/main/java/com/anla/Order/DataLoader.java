@@ -36,8 +36,6 @@ public class DataLoader implements CommandLineRunner {
             
             orderRepository.save(order1);
             orderRepository.save(order2);
-            
-            System.out.println("Sample order data loaded!");
         }
     }
 }

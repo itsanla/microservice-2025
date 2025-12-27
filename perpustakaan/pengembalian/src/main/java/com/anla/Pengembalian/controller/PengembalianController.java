@@ -2,7 +2,6 @@ package com.anla.Pengembalian.controller;
 
 import com.anla.Pengembalian.model.Pengembalian;
 import com.anla.Pengembalian.service.PengembalianService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +11,11 @@ import java.util.List;
 @RequestMapping("/api/pengembalian")
 public class PengembalianController {
 
-    @Autowired
-    private PengembalianService pengembalianService;
+    private final PengembalianService pengembalianService;
+
+    public PengembalianController(PengembalianService pengembalianService) {
+        this.pengembalianService = pengembalianService;
+    }
 
     @GetMapping
     public List<Pengembalian> getAllPengembalian() {

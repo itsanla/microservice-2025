@@ -4,7 +4,6 @@ import com.anla.Peminjaman.VO.ResponseTemplateVO;
 import com.anla.Peminjaman.dto.PeminjamanDto;
 import com.anla.Peminjaman.model.Peminjaman;
 import com.anla.Peminjaman.service.PeminjamanService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +13,11 @@ import java.util.List;
 @RequestMapping("/api/peminjaman")
 public class PeminjamanController {
 
-    @Autowired
-    private PeminjamanService peminjamanService;
+    private final PeminjamanService peminjamanService;
+
+    public PeminjamanController(PeminjamanService peminjamanService) {
+        this.peminjamanService = peminjamanService;
+    }
 
     @GetMapping
     public List<Peminjaman> getAllPeminjaman() {
@@ -54,9 +56,12 @@ public class PeminjamanController {
     @GetMapping("/detail/{id}")
     public ResponseEntity<ResponseTemplateVO> getPeminjamanWithDetailById(@PathVariable Long id) {
         List<ResponseTemplateVO> results = peminjamanService.getPeminjamanWithDetailById(id);
+        ResponseEntity<ResponseTemplateVO> response;
         if (results.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            response = ResponseEntity.notFound().build();
+        } else {
+            response = ResponseEntity.ok(results.get(0));
         }
-        return ResponseEntity.ok(results.get(0));
+        return response;
     }
 }

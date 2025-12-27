@@ -4,7 +4,6 @@ import com.anla.Peminjaman.model.Peminjaman;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 @Data
@@ -19,12 +18,15 @@ public class PeminjamanDto {
     }
 
     private Double calculateDenda() {
-        if (peminjaman.getTanggalDikembalikan() != null && peminjaman.getTanggal_batas() != null) {
-            if (peminjaman.getTanggalDikembalikan().isAfter(peminjaman.getTanggal_batas())) {
-                long daysOverdue = ChronoUnit.DAYS.between(peminjaman.getTanggal_batas(), peminjaman.getTanggalDikembalikan());
-                return daysOverdue * 1000.0;
+        Double result = 0.0;
+        java.time.LocalDate tanggalDikembalikan = peminjaman.getTanggalDikembalikan();
+        java.time.LocalDate tanggalBatas = peminjaman.getTanggal_batas();
+        if (tanggalDikembalikan != null && tanggalBatas != null) {
+            long daysDiff = ChronoUnit.DAYS.between(tanggalBatas, tanggalDikembalikan);
+            if (daysDiff > 0) {
+                result = daysDiff * 1000.0;
             }
         }
-        return 0.0;
+        return result;
     }
 }

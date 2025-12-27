@@ -7,7 +7,6 @@ import com.anla.Peminjaman.repository.PeminjamanRepository;
 import com.anla.Peminjaman.VO.Anggota;
 import com.anla.Peminjaman.VO.Buku;
 import com.anla.Peminjaman.VO.ResponseTemplateVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Service;
 import com.anla.Peminjaman.VO.Pengembalian;
@@ -21,17 +20,21 @@ import java.util.List;
 @Service
 public class PeminjamanService {
 
-    @Autowired
-    private PeminjamanRepository peminjamanRepository;
+    private final PeminjamanRepository peminjamanRepository;
+    private final DiscoveryClient discoveryClient;
+    private final RestTemplate restTemplate;
+    private final PeminjamanProducerService peminjamanProducerService;
 
-    @Autowired
-    private DiscoveryClient discoveryClient;
-
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
-    private PeminjamanProducerService peminjamanProducerService;
+    public PeminjamanService(
+            PeminjamanRepository peminjamanRepository,
+            DiscoveryClient discoveryClient,
+            RestTemplate restTemplate,
+            PeminjamanProducerService peminjamanProducerService) {
+        this.peminjamanRepository = peminjamanRepository;
+        this.discoveryClient = discoveryClient;
+        this.restTemplate = restTemplate;
+        this.peminjamanProducerService = peminjamanProducerService;
+    }
 
     public List<Peminjaman> getAllPeminjaman() {
         return peminjamanRepository.findAll();
@@ -55,15 +58,16 @@ public class PeminjamanService {
 
     public Peminjaman updatePeminjaman(Long id, Peminjaman peminjamanDetails) {
         Peminjaman peminjaman = peminjamanRepository.findById(id).orElse(null);
+        Peminjaman result = null;
         if (peminjaman != null) {
             peminjaman.setTanggal_pinjam(peminjamanDetails.getTanggal_pinjam());
             peminjaman.setTanggalDikembalikan(peminjamanDetails.getTanggalDikembalikan());
             peminjaman.setTanggal_batas(peminjamanDetails.getTanggal_batas());
             peminjaman.setAnggotaId(peminjamanDetails.getAnggotaId());
             peminjaman.setBukuId(peminjamanDetails.getBukuId());
-            return peminjamanRepository.save(peminjaman);
+            result = peminjamanRepository.save(peminjaman);
         }
-        return null;
+        return result;
     }
 
     public void deletePeminjaman(Long id) {
@@ -73,53 +77,56 @@ public class PeminjamanService {
     public List<ResponseTemplateVO> getPeminjamanWithDetailById(Long id) {
         List<ResponseTemplateVO> responseList = new ArrayList<>();
         Peminjaman peminjaman = getPeminjamanById(id);
-        if (peminjaman == null) {
-            return responseList;
+        if (peminjaman != null) {
+            Buku buku = restTemplate.getForObject("http://BUKU-SERVICE/api/buku/" 
+                    + peminjaman.getBukuId(), Buku.class);
+
+            Anggota anggota = restTemplate.getForObject("http://ANGGOTA-SERVICE/api/anggota/" 
+                    + peminjaman.getAnggotaId(), Anggota.class);
+
+            Pengembalian pengembalian = restTemplate.getForObject("http://PENGEMBALIAN-SERVICE/api/pengembalian/" 
+                    + id, Pengembalian.class);
+
+            processPengembalian(peminjaman, pengembalian);
+
+            ResponseTemplateVO vo = new ResponseTemplateVO();
+            vo.setPeminjaman(peminjaman);
+            vo.setBuku(buku);
+            vo.setAnggota(anggota);
+            vo.setPengembalian(pengembalian);
+            
+            responseList.add(vo);
         }
-
-        // Panggil BUKU-SERVICE di port 8084
-        Buku buku = restTemplate.getForObject("http://BUKU-SERVICE/api/buku/" 
-                + peminjaman.getBukuId(), Buku.class);
-
-        // Panggil ANGGOTA-SERVICE di port 8085
-        Anggota anggota = restTemplate.getForObject("http://ANGGOTA-SERVICE/api/anggota/" 
-                + peminjaman.getAnggotaId(), Anggota.class);
-
-        // Panggil PENGEMBALIAN-SERVICE di port 8086
-        Pengembalian pengembalian = restTemplate.getForObject("http://PENGEMBALIAN-SERVICE/api/pengembalian/" 
-                + id, Pengembalian.class); // Asumsi id pengembalian sama dengan id peminjaman
-
-        if (pengembalian != null && pengembalian.getTanggalDikembalikan() != null && peminjaman.getTanggal_batas() != null) {
-            // Sinkronisasi tanggal
-            peminjaman.setTanggalDikembalikan(pengembalian.getTanggalDikembalikan());
-
-            // Hitung denda dan keterlambatan
-            if (pengembalian.getTanggalDikembalikan().isAfter(peminjaman.getTanggal_batas())) {
-                long daysOverdue = ChronoUnit.DAYS.between(peminjaman.getTanggal_batas(), pengembalian.getTanggalDikembalikan());
-                pengembalian.setTerlambat((int) daysOverdue);
-                pengembalian.setDenda(daysOverdue * 1000.0);
-            } else {
-                pengembalian.setTerlambat(0);
-                pengembalian.setDenda(0.0);
-            }
-        }
-
-        ResponseTemplateVO vo = new ResponseTemplateVO();
-        vo.setPeminjaman(peminjaman);
-        vo.setBuku(buku);
-        vo.setAnggota(anggota);
-        vo.setPengembalian(pengembalian);
-        
-        responseList.add(vo);
         return responseList;
+    }
+
+    private void processPengembalian(Peminjaman peminjaman, Pengembalian pengembalian) {
+        if (pengembalian == null) {
+            return;
+        }
+        java.time.LocalDate tanggalDikembalikan = pengembalian.getTanggalDikembalikan();
+        java.time.LocalDate tanggalBatas = peminjaman.getTanggal_batas();
+        if (tanggalDikembalikan == null || tanggalBatas == null) {
+            return;
+        }
+        peminjaman.setTanggalDikembalikan(tanggalDikembalikan);
+        long daysDiff = ChronoUnit.DAYS.between(tanggalBatas, tanggalDikembalikan);
+        if (daysDiff > 0) {
+            pengembalian.setTerlambat((int) daysDiff);
+            pengembalian.setDenda(daysDiff * 1000.0);
+        } else {
+            pengembalian.setTerlambat(0);
+            pengembalian.setDenda(0.0);
+        }
     }
 
     public PeminjamanDto getPeminjamanWithDenda(Long id) {
         Peminjaman peminjaman = getPeminjamanById(id);
-        if (peminjaman == null) {
-            return null;
+        PeminjamanDto result = null;
+        if (peminjaman != null) {
+            result = new PeminjamanDto(peminjaman);
         }
-        return new PeminjamanDto(peminjaman);
+        return result;
     }
 }
 

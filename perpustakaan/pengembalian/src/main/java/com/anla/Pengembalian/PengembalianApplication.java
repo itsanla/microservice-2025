@@ -6,7 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class PengembalianApplication {
+public final class PengembalianApplication {
+
+	private PengembalianApplication() {
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(PengembalianApplication.class, args);

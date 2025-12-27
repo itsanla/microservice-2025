@@ -1,28 +1,28 @@
 import subprocess
 import os
 import platform
-BASE_PATH = r"C:\Users\anlah\OneDrive\Documents\SEMESTER 5\Arsitektur Berbasis Layanan\microservice-2025"
+BASE_PATH = "/media/anla/DATA_B/project/SEMESTER5/matkul-abl/microservice-2025"
 
 services = [
     {
         "name": "Buku",
-        "path": r"Perpustakaan\Buku"
+        "path": "perpustakaan/buku"
     },
     {
         "name": "Anggota",
-        "path": r"Perpustakaan\anggota"
+        "path": "perpustakaan/anggota"
     },
     {
         "name": "Pengembalian",
-        "path": r"Perpustakaan\Pengembalian"
+        "path": "perpustakaan/pengembalian"
     },
     {
         "name": "Peminjaman",
-        "path": r"Perpustakaan\Peminjaman"
+        "path": "perpustakaan/peminjaman"
     },
     {
         "name": "API Gateway Perpustakaan",
-        "path": r"Perpustakaan\api-gateway"
+        "path": "perpustakaan/api-gateway"
     },
 ]
 print("="*80)

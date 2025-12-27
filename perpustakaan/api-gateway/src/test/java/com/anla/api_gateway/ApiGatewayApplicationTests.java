@@ -6,6 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class ApiGatewayApplicationTests {
 
+	ApiGatewayApplicationTests() {
+	}
+
 	@Test
 	void contextLoads() {
 	}

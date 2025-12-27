@@ -24,6 +24,5 @@ public class PeminjamanProducerService {
 
     public void sendPeminjamanNotification(PeminjamanMessage message) {
         rabbitTemplate.convertAndSend(exchangeName, routingKey, message);
-        System.out.println("Sent Peminjaman Notification: " + message);
     }
 }

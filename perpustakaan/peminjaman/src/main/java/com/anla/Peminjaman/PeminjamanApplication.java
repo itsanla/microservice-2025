@@ -12,6 +12,9 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 public class PeminjamanApplication {
 
+	public PeminjamanApplication() {
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(PeminjamanApplication.class, args);
 	}

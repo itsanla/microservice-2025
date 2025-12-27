@@ -3,6 +3,7 @@ package com.anla.Peminjaman.dto;
 import java.io.Serializable;
 
 public class PeminjamanMessage implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Long peminjamanId;
     private Long anggotaId;
     private Long bukuId;

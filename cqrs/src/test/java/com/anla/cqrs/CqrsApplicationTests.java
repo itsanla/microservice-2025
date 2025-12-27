@@ -1,10 +1,10 @@
-package com.anla.Buku;
+package com.anla.cqrs;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BukuApplicationTests {
+class CqrsApplicationTests {
 
 	@Test
 	void contextLoads() {

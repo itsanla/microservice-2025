@@ -6,6 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class PengembalianApplicationTests {
 
+	PengembalianApplicationTests() {
+	}
+
 	@Test
 	void contextLoads() {
 	}

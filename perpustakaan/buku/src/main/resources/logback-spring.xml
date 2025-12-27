@@ -12,6 +12,9 @@
 
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>${logstashHost}:${logstashPort}</destination>
+        <reconnectionDelay>1000</reconnectionDelay>
+        <keepAliveDuration>1 minute</keepAliveDuration>
+        <writeTimeout>1000</writeTimeout>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"service":"${appName}"}</customFields>
         </encoder>
@@ -19,6 +22,5 @@
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="LOGSTASH"/>
     </root>
 </configuration>

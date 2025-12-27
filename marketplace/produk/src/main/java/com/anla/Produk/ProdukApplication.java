@@ -6,7 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class ProdukApplication {
+public final class ProdukApplication {
+
+	private ProdukApplication() {
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProdukApplication.class, args);
