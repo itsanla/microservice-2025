@@ -2,46 +2,40 @@ package com.anla.Pengembalian.controller;
 
 import com.anla.Pengembalian.model.Pengembalian;
 import com.anla.Pengembalian.service.PengembalianService;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/pengembalian")
+@RequiredArgsConstructor
 public class PengembalianController {
-
+    
     private final PengembalianService pengembalianService;
-
-    public PengembalianController(PengembalianService pengembalianService) {
-        this.pengembalianService = pengembalianService;
-    }
-
+    
     @GetMapping
-    public List<Pengembalian> getAllPengembalian() {
+    public List<Object> getAllPengembalian() {
         return pengembalianService.getAllPengembalian();
     }
-
+    
     @GetMapping("/{id}")
-    public ResponseEntity<Pengembalian> getPengembalianById(@PathVariable Long id) {
-        Pengembalian pengembalian = pengembalianService.getPengembalianById(id);
-        return pengembalian != null ? ResponseEntity.ok(pengembalian) : ResponseEntity.notFound().build();
+    public Object getPengembalianById(@PathVariable Long id) {
+        return pengembalianService.getPengembalianById(id);
     }
-
+    
     @PostMapping
     public Pengembalian createPengembalian(@RequestBody Pengembalian pengembalian) {
         return pengembalianService.createPengembalian(pengembalian);
     }
-
+    
     @PutMapping("/{id}")
-    public ResponseEntity<Pengembalian> updatePengembalian(@PathVariable Long id, @RequestBody Pengembalian pengembalianDetails) {
-        Pengembalian updatedPengembalian = pengembalianService.updatePengembalian(id, pengembalianDetails);
-        return updatedPengembalian != null ? ResponseEntity.ok(updatedPengembalian) : ResponseEntity.notFound().build();
+    public Pengembalian updatePengembalian(@PathVariable Long id, @RequestBody Pengembalian pengembalian) {
+        return pengembalianService.updatePengembalian(id, pengembalian);
     }
-
+    
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePengembalian(@PathVariable Long id) {
+    public void deletePengembalian(@PathVariable Long id) {
         pengembalianService.deletePengembalian(id);
-        return ResponseEntity.ok().build();
     }
 }

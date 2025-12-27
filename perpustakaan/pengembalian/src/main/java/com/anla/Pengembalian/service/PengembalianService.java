@@ -1,46 +1,40 @@
 package com.anla.Pengembalian.service;
 
 import com.anla.Pengembalian.model.Pengembalian;
-import com.anla.Pengembalian.repository.PengembalianRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
+@RequiredArgsConstructor
 public class PengembalianService {
-
-    private final PengembalianRepository pengembalianRepository;
-
-    public PengembalianService(PengembalianRepository pengembalianRepository) {
-        this.pengembalianRepository = pengembalianRepository;
-    }
-
-    public List<Pengembalian> getAllPengembalian() {
-        return pengembalianRepository.findAll();
-    }
-
-    public Pengembalian getPengembalianById(Long id) {
-        return pengembalianRepository.findById(id).orElse(null);
-    }
-
+    
+    private final CqrsClientService cqrsClient;
+    private final AtomicLong idCounter = new AtomicLong(1);
+    
     public Pengembalian createPengembalian(Pengembalian pengembalian) {
-        return pengembalianRepository.save(pengembalian);
+        pengembalian.setId(idCounter.getAndIncrement());
+        cqrsClient.save(pengembalian, pengembalian.getId().toString());
+        return pengembalian;
     }
-
-    public Pengembalian updatePengembalian(Long id, Pengembalian pengembalianDetails) {
-        Pengembalian pengembalian = pengembalianRepository.findById(id).orElse(null);
-        Pengembalian result = null;
-        if (pengembalian != null) {
-            pengembalian.setTanggalDikembalikan(pengembalianDetails.getTanggalDikembalikan());
-            pengembalian.setTerlambat(pengembalianDetails.getTerlambat());
-            pengembalian.setDenda(pengembalianDetails.getDenda());
-            pengembalian.setPeminjamanId(pengembalianDetails.getPeminjamanId());
-            result = pengembalianRepository.save(pengembalian);
-        }
-        return result;
+    
+    public Pengembalian updatePengembalian(Long id, Pengembalian pengembalian) {
+        pengembalian.setId(id);
+        cqrsClient.update(pengembalian, id.toString());
+        return pengembalian;
     }
-
+    
     public void deletePengembalian(Long id) {
-        pengembalianRepository.deleteById(id);
+        cqrsClient.delete(id.toString());
+    }
+    
+    public Object getPengembalianById(Long id) {
+        return cqrsClient.findById(id.toString());
+    }
+    
+    public List<Object> getAllPengembalian() {
+        return cqrsClient.findAll();
     }
 }
