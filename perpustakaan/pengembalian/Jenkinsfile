@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
+        DOCKER_HUB_CREDENTIALS = credentials('docker-token')
         DOCKER_IMAGE = 'itsanla/pengembalian'
         SERVICE_NAME = 'pengembalian'
     }
@@ -23,9 +23,9 @@ pipeline {
                     
                     // Fetch latest version from Docker Hub
                     def tags = sh(
-                        script: """curl -s 'https://registry.hub.docker.com/v2/repositories/${DOCKER_IMAGE}/tags?page_size=100' | \
-                                   grep -o '"name":"[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+"' | \
-                                   grep -o '[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+' | \
+                        script: """curl -s 'https://registry.hub.docker.com/v2/repositories/${DOCKER_IMAGE}/tags?page_size=100' | \\
+                                   grep -o '"name":"[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+"' | \\
+                                   grep -o '[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+' | \\
                                    sort -V | tail -1""",
                         returnStdout: true
                     ).trim()
@@ -103,9 +103,6 @@ pipeline {
     }
     
     post {
-        always {
-            cleanWs()
-        }
         success {
             echo "✅ ${SERVICE_NAME} service v${env.NEW_VERSION} built and pushed successfully!"
         }
