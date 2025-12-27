@@ -81,7 +81,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 dir('perpustakaan/buku') {
-                    sh "docker build -t ${DOCKER_IMAGE}:${env.NEW_VERSION} ."
+                    sh "docker build --no-cache -t ${DOCKER_IMAGE}:${env.NEW_VERSION} ."
                     sh "docker tag ${DOCKER_IMAGE}:${env.NEW_VERSION} ${DOCKER_IMAGE}:latest"
                 }
             }
