@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
+        DOCKER_HUB_CREDENTIALS = credentials('docker-token')
         DOCKER_IMAGE = 'itsanla/buku'
         SERVICE_NAME = 'buku'
     }
@@ -103,9 +103,6 @@ pipeline {
     }
     
     post {
-        always {
-            cleanWs()
-        }
         success {
             echo "✅ ${SERVICE_NAME} service v${env.NEW_VERSION} built and pushed successfully!"
         }
