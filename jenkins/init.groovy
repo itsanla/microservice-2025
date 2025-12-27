@@ -1,36 +1,34 @@
-#!/usr/bin/env groovy
-
 import jenkins.model.*
 import com.cloudbees.plugins.credentials.*
-import com.cloudbees.plugins.credentials.common.*
 import com.cloudbees.plugins.credentials.domains.*
-import com.cloudbees.plugins.credentials.impl.*
-import hudson.util.Secret
+import org.jenkinsci.plugins.plaincredentials.impl.*
 
 def instance = Jenkins.getInstance()
-
-// Get environment variables
 def dockerUsername = System.getenv('DOCKER_HUB_USERNAME')
 def dockerToken = System.getenv('DOCKER_HUB_TOKEN')
 
 if (dockerUsername && dockerToken) {
-    println "Setting up Docker Hub credentials..."
-    
     def domain = Domain.global()
-    def store = instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
+    def store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
     
-    def dockerCredentials = new UsernamePasswordCredentialsImpl(
+    def dockerCredentials = new StringCredentialsImpl(
         CredentialsScope.GLOBAL,
-        "docker-hub-credentials",
-        "Docker Hub Credentials",
-        dockerUsername,
-        dockerToken
+        "docker-hub-token",
+        "Docker Hub Token",
+        Secret.fromString(dockerToken)
+    )
+    
+    def usernameCredentials = new StringCredentialsImpl(
+        CredentialsScope.GLOBAL,
+        "docker-hub-username", 
+        "Docker Hub Username",
+        Secret.fromString(dockerUsername)
     )
     
     store.addCredentials(domain, dockerCredentials)
-    println "Docker Hub credentials added successfully!"
-} else {
-    println "Docker Hub credentials not found in environment variables"
+    store.addCredentials(domain, usernameCredentials)
+    
+    println "Docker Hub credentials configured successfully!"
 }
 
 instance.save()
