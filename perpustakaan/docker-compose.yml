@@ -16,19 +16,14 @@ services:
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       EUREKA_INSTANCE_IP_ADDRESS: ${VPS_PERPUSTAKAAN_IP}
       
-      # H2 Database
-      SPRING_DATASOURCE_URL: jdbc:h2:file:/app/data/buku;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
-      SPRING_DATASOURCE_USERNAME: sa
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_H2_CONSOLE_ENABLED: "true"
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      # CQRS Configuration
+      CQRS_SERVICE_URL: http://${CQRS_IP}:8088
+      CQRS_SERVICE_NAME: buku
+      CQRS_AUTH_ENABLED: "true"
       
       # Logging to ELK
       LOGSTASH_HOST: ${LOGSTASH_IP}
       LOGSTASH_PORT: 5000
-    volumes:
-      - buku-data:/app/data
     networks:
       - perpustakaan-network
     restart: unless-stopped
@@ -54,19 +49,14 @@ services:
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       EUREKA_INSTANCE_IP_ADDRESS: ${VPS_PERPUSTAKAAN_IP}
       
-      # H2 Database
-      SPRING_DATASOURCE_URL: jdbc:h2:file:/app/data/anggota;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
-      SPRING_DATASOURCE_USERNAME: sa
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_H2_CONSOLE_ENABLED: "true"
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      # CQRS Configuration
+      CQRS_SERVICE_URL: http://${CQRS_IP}:8088
+      CQRS_SERVICE_NAME: anggota
+      CQRS_AUTH_ENABLED: "true"
       
       # Logging to ELK
       LOGSTASH_HOST: ${LOGSTASH_IP}
       LOGSTASH_PORT: 5000
-    volumes:
-      - anggota-data:/app/data
     networks:
       - perpustakaan-network
     restart: unless-stopped
@@ -92,19 +82,14 @@ services:
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       EUREKA_INSTANCE_IP_ADDRESS: ${VPS_PERPUSTAKAAN_IP}
       
-      # H2 Database
-      SPRING_DATASOURCE_URL: jdbc:h2:file:/app/data/pengembalian;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
-      SPRING_DATASOURCE_USERNAME: sa
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_H2_CONSOLE_ENABLED: "true"
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      # CQRS Configuration
+      CQRS_SERVICE_URL: http://${CQRS_IP}:8088
+      CQRS_SERVICE_NAME: pengembalian
+      CQRS_AUTH_ENABLED: "true"
       
       # Logging to ELK
       LOGSTASH_HOST: ${LOGSTASH_IP}
       LOGSTASH_PORT: 5000
-    volumes:
-      - pengembalian-data:/app/data
     networks:
       - perpustakaan-network
     restart: unless-stopped
@@ -130,13 +115,10 @@ services:
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       EUREKA_INSTANCE_IP_ADDRESS: ${VPS_PERPUSTAKAAN_IP}
       
-      # H2 Database
-      SPRING_DATASOURCE_URL: jdbc:h2:file:/app/data/peminjaman;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
-      SPRING_DATASOURCE_USERNAME: sa
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_H2_CONSOLE_ENABLED: "true"
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      # CQRS Configuration
+      CQRS_SERVICE_URL: http://${CQRS_IP}:8088
+      CQRS_SERVICE_NAME: peminjaman
+      CQRS_AUTH_ENABLED: "true"
       
       # RabbitMQ Configuration
       SPRING_RABBITMQ_HOST: ${RABBITMQ_IP}
@@ -147,8 +129,6 @@ services:
       # Logging to ELK
       LOGSTASH_HOST: ${LOGSTASH_IP}
       LOGSTASH_PORT: 5000
-    volumes:
-      - peminjaman-data:/app/data
     networks:
       - perpustakaan-network
     restart: unless-stopped
@@ -160,14 +140,6 @@ services:
       start_period: 60s
 
 volumes:
-  buku-data:
-    driver: local
-  anggota-data:
-    driver: local
-  pengembalian-data:
-    driver: local
-  peminjaman-data:
-    driver: local
 
 networks:
   perpustakaan-network:
