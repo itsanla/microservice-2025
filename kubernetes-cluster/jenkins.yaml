@@ -1,0 +1,72 @@
+# ==========================================
+# 1. TIKET REQUEST HARDDISK (PVC)
+# ==========================================
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3     # <--- Memesan menu GP3
+  resources:
+    requests:
+      storage: 10Gi         # Minta dibuatkan 10 GB
+
+---
+# ==========================================
+# 2. AKSES JARINGAN (SERVICE)
+# ==========================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-service
+spec:
+  selector:
+    app: jenkins-app
+  type: NodePort
+  ports:
+    - name: http-port
+      port: 8080
+      targetPort: 8080
+      nodePort: 30000       # Akses via Browser: http://IP-Worker:30000
+    - name: agent-port
+      port: 50000
+      targetPort: 50000
+
+---
+# ==========================================
+# 3. APLIKASI (DEPLOYMENT)
+# ==========================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins-app
+  template:
+    metadata:
+      labels:
+        app: jenkins-app
+    spec:
+      securityContext:
+        runAsUser: 0        # Root user
+      containers:
+      - name: jenkins
+        image: jenkins/jenkins:lts-jdk17
+        ports:
+        - containerPort: 8080
+        - containerPort: 50000
+        env:
+        - name: JAVA_OPTS
+          value: "-Xmx1024m"
+        volumeMounts:
+        - name: jenkins-storage
+          mountPath: /var/jenkins_home
+      volumes:
+      - name: jenkins-storage
+        persistentVolumeClaim:    # <--- Menggunakan storage AWS otomatis
+          claimName: jenkins-pvc
