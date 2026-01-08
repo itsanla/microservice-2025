@@ -1,27 +1,27 @@
 const services = [
   { category: "Service Perpustakaan", items: [
-    { url: "https://perpustakaan-gateway.mooo.com", name: "API Gateway", desc: "Gateway utama sistem perpustakaan", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
-    { url: "https://anggota.mooo.com", name: "Anggota", desc: "Manajemen data anggota", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
-    { url: "https://bukuu.mooo.com", name: "Buku", desc: "Katalog dan stok buku", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
-    { url: "https://peminjamann.mooo.com", name: "Peminjaman", desc: "Transaksi peminjaman buku", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
-    { url: "https://pengembalian.mooo.com", name: "Pengembalian", desc: "Transaksi pengembalian & denda", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
+    { url: "https://perpustakaan-gateway.mooo.com", name: "Perpustakaan API Gateway", desc: "Gateway utama sistem perpustakaan", img: "https://i.pinimg.com/736x/58/b9/51/58b951b47a8262d6931cf81c9c639136.jpg" },
+    { url: "https://anggota.mooo.com", name: "Anggota", desc: "Manajemen data anggota", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkkq1-UatZx9MOV0RVPzst5L5lAfhHcOb4vg&s" },
+    { url: "https://bukuu.mooo.com", name: "Buku", desc: "Katalog dan stok buku", img: "https://i.pinimg.com/736x/b7/a2/91/b7a29170bb6239aec83517ff690c0273.jpg" },
+    { url: "https://peminjamann.mooo.com", name: "Peminjaman", desc: "Transaksi peminjaman buku", img: "https://i.pinimg.com/736x/c8/95/df/c895dfdd89012367161154256c4973ef.jpg" },
+    { url: "https://pengembalian.mooo.com", name: "Pengembalian", desc: "Transaksi pengembalian & denda", img: "https://i.pinimg.com/1200x/0e/2f/08/0e2f08f7f1e312c0b52f7d5e02266463.jpg" },
   ]},
   { category: "Service Marketplace", items: [
-    { url: "https://marketplace-gateway.mooo.com", name: "API Gateway", desc: "Gateway utama sistem jual-beli", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
-    { url: "https://pelanggan.mooo.com", name: "Pelanggan", desc: "Akun pengguna (penjual/pembeli)", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
-    { url: "https://produk.mooo.com", name: "Produk", desc: "Manajemen data produk jual", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
-    { url: "https://orderr.mooo.com", name: "Order", desc: "Keranjang belanja dan pesanan", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
+    { url: "https://marketplace-gateway.mooo.com", name: "Marketplace API Gateway", desc: "Gateway utama sistem jual-beli", img: "https://ap-southeast-2-seek-apac.graphassets.com/AEzBCRO50TYyqbV6XzRDQz/JKw7oEAYQcassUca0Z0b" },
+    { url: "https://pelanggan.mooo.com", name: "Pelanggan", desc: "Akun pengguna (penjual/pembeli)", img: "https://plus.unsplash.com/premium_vector-1682303382733-f64ce64cace0?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+    { url: "https://produk.mooo.com", name: "Produk", desc: "Manajemen data produk jual", img: "https://i.pinimg.com/1200x/66/e7/a3/66e7a3964e7e7d7d4f7016c454d157ef.jpg" },
+    { url: "https://orderr.mooo.com", name: "Order", desc: "Keranjang belanja dan pesanan", img: "https://i.pinimg.com/736x/71/21/3c/71213c4cf9f67a108a2f9e4dd0e10b62.jpg" },
   ]},
   { category: "Service Infrastructure", items: [
-    { url: "https://jenkinss.mooo.com", name: "Jenkins", desc: "CI/CD otomatisasi deployment", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
-    { url: "https://graffana.mooo.com", name: "Grafana", desc: "Dashboard monitoring metrics", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
-    { url: "https://kibbana.mooo.com", name: "Kibana", desc: "Dashboard logs & searching", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
-    { url: "https://eurekaa.mooo.com", name: "Eureka", desc: "Service Discovery & Registry", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
-    { url: "https://rabbittmq.mooo.com", name: "RabbitMQ", desc: "Message Broker Management", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
+    { url: "https://jenkinss.mooo.com", name: "Jenkins", desc: "CI/CD otomatisasi deployment", img: "https://image.web.id/images/logo-title-opengraph.png" },
+    { url: "https://graffana.mooo.com", name: "Grafana", desc: "Dashboard monitoring metrics", img: "https://pandorafms.com/blog/wp-content/uploads/2019/02/que-es-grafana-1.png" },
+    { url: "https://kibbana.mooo.com", name: "Kibana", desc: "Dashboard logs & searching", img: "https://icon-icons.com/download-file?file=https%3A%2F%2Fimages.icon-icons.com%2F2699%2FPNG%2F512%2Felasticco_kibana_logo_icon_169209.png&id=169209&pack_or_individual=pack" },
+    { url: "https://eurekaa.mooo.com", name: "Eureka", desc: "Service Discovery & Registry", img: "https://velog.velcdn.com/images/rockstar/post/db8e6c33-a1cf-4e2d-92a6-adf7aba0ccb3/image.png" },
+    { url: "https://rabbittmq.mooo.com", name: "RabbitMQ", desc: "Message Broker Management", img: "https://shiftasia.com/community/content/images/2024/04/rabbitmq_logo_icon_170812.png" },
   ]},
   { category: "Service Database", items: [
-    { url: "https://dbh2.mooo.com", name: "H2 Console", desc: "Console H2 Database (Relational)", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
-    { url: "https://dbmongo.mooo.com", name: "MongoDB", desc: "Console Admin MongoDB (NoSQL)", img: "https://i.pinimg.com/736x/6f/72/49/6f724978ad99487e8e069315ce1ed782.jpg" },
+    { url: "https://dbh2.mooo.com", name: "H2 Console", desc: "Console H2 Database (Relational)", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI9Cge7YxJfqfABoys4JVhlRctcUswBDVm2A&s" },
+    { url: "https://dbmongo.mooo.com", name: "MongoDB", desc: "Console Admin MongoDB (NoSQL)", img: "https://i.pinimg.com/1200x/33/1d/cc/331dcc50a90f10d6da211faf28678b0f.jpg" },
   ]},
 ];
 
@@ -104,16 +104,16 @@ export default function Home() {
         </div>
       </nav>
 
-      <section className="bg-orange-500 text-white">
+      <section className="bg-gradient-to-r from-orange-500 to-orange-300 text-white relative">
         <div className="container mx-auto px-4 py-20 max-w-7xl">
           <div className="grid md:grid-cols-2 gap-12 items-end">
-            <div>
-              <h1 className="text-4xl font-bold mb-2">Anla Harpanda</h1>
-              <p className="text-lg mb-6 opacity-90">NIM: 2311083015</p>
-              <p className="text-base leading-relaxed opacity-95">
+            <div className="self-start">
+              <h1 className="text-5xl font-bold mb-3">Anla Harpanda</h1>
+              <p className="text-2xl mb-8 opacity-90">NIM: 2311083015</p>
+              <p className="text-lg leading-relaxed opacity-95">
                 Microservice ini dibangun dalam arsitektur Kubernetes cluster yang menghubungkan 22 service dengan 16 URL endpoint. 
                 Sistem terdiri dari dua domain utama yaitu Perpustakaan dan Marketplace, dilengkapi dengan infrastruktur pendukung 
-                seperti service discovery (Eureka), message broker (RabbitMQ), monitoring (Grafana), logging (Kibana), 
+                seperti service discovery (Eureka), message broker (RabbitMQ), monitoring (Grafana & Prometheus), logging (ELK Stack), 
                 dan CI/CD pipeline (Jenkins) untuk otomatisasi deployment.
               </p>
             </div>
@@ -121,6 +121,11 @@ export default function Home() {
               <img src="/onboard.png" alt="Onboard" className="max-w-md w-full" />
             </div>
           </div>
+        </div>
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+          <svg className="relative block w-full h-24" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,60 Q300,0 600,60 T1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
+          </svg>
         </div>
       </section>
 
@@ -139,7 +144,7 @@ export default function Home() {
                     className="block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg hover:border-orange-500 transition-all"
                   >
                     <div className="h-32 bg-gray-100">
-                      <img src={service.img} alt={service.name} className="w-full h-full object-cover" />
+                      <img src={service.img} alt={service.name} className="w-full h-full object-cover" style={{objectPosition: '50% 30%'}} />
                     </div>
                     <div className="p-4">
                       <h3 className="font-semibold text-lg mb-1 text-gray-900">{service.name}</h3>
