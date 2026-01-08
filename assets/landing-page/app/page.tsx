@@ -57,7 +57,7 @@ const dockerImages = [
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
-      <nav className="bg-white shadow-sm sticky top-0 z-50">
+      <nav className="bg-white shadow-md sticky top-0 z-50">
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center gap-2">
@@ -141,7 +141,7 @@ export default function Home() {
                     href={service.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg hover:border-orange-500 transition-all"
+                    className="block bg-orange-50 border border-gray-200 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl hover:border-orange-500 transition-all"
                   >
                     <div className="h-32 bg-gray-100">
                       <img src={service.img} alt={service.name} className="w-full h-full object-cover" style={{objectPosition: '50% 30%'}} />
