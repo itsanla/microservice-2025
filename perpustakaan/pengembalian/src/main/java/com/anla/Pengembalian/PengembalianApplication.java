@@ -11,9 +11,6 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 public class PengembalianApplication {
 
-	private PengembalianApplication() {
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(PengembalianApplication.class, args);
 	}

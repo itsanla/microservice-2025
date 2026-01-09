@@ -11,9 +11,6 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 public class AnggotaApplication {
 
-    private AnggotaApplication() {
-    }
-
 	public static void main(String[] args) {
 		SpringApplication.run(AnggotaApplication.class, args);
 	}
