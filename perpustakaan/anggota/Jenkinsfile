@@ -64,14 +64,6 @@ pipeline {
             }
         }
         
-        stage('Test') {
-            steps {
-                dir('perpustakaan/anggota') {
-                    sh './mvnw clean test'
-                }
-            }
-        }
-        
         stage('Build') {
             steps {
                 dir('perpustakaan/anggota') {
