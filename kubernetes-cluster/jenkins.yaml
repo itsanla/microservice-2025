@@ -1,21 +1,5 @@
 # ==========================================
-# 1. TIKET REQUEST HARDDISK (PVC)
-# ==========================================
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: jenkins-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: gp3     # <--- Memesan menu GP3
-  resources:
-    requests:
-      storage: 10Gi         # Minta dibuatkan 10 GB
-
----
-# ==========================================
-# 2. AKSES JARINGAN (SERVICE)
+# 1. AKSES JARINGAN (SERVICE)
 # ==========================================
 apiVersion: v1
 kind: Service
@@ -27,7 +11,7 @@ spec:
   type: NodePort
   ports:
     - name: http-port
-      port: 8080
+      port: 80
       targetPort: 8080
       nodePort: 30000       # Akses via Browser: http://IP-Worker:30000
     - name: agent-port
@@ -36,7 +20,7 @@ spec:
 
 ---
 # ==========================================
-# 3. APLIKASI (DEPLOYMENT)
+# 2. APLIKASI (DEPLOYMENT)
 # ==========================================
 apiVersion: apps/v1
 kind: Deployment
@@ -68,5 +52,5 @@ spec:
           mountPath: /var/jenkins_home
       volumes:
       - name: jenkins-storage
-        persistentVolumeClaim:    # <--- Menggunakan storage AWS otomatis
-          claimName: jenkins-pvc
+        persistentVolumeClaim:
+          claimName: storage  # Menggunakan shared storage

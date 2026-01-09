@@ -1,0 +1,15 @@
+# ==========================================
+# PERSISTENT VOLUME CLAIM (PVC)
+# Shared storage untuk semua 20 services
+# ==========================================
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3
+  resources:
+    requests:
+      storage: 14Gi

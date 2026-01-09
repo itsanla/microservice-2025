@@ -2,24 +2,14 @@ package com.anla.pelanggan;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-/**
- * Test class for PelangganApplication.
- */
 @SpringBootTest
-@SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.JUnitTestsShouldIncludeAssert"})
+@ActiveProfiles("test")
 class PelangganApplicationTests {
-
-    /**
-     * Default constructor.
-     */
-    public PelangganApplicationTests() {
-        // Default constructor
-    }
 
 	@Test
 	void contextLoads() {
-        // This test verifies that the Spring application context can start successfully.
+		// Test passes if context loads
 	}
-
 }
