@@ -107,17 +107,6 @@ pipeline {
             }
         }
         
-        stage('Make Package Public') {
-            steps {
-                sh '''
-                    curl -X PATCH \
-                      -H "Accept: application/vnd.github+json" \
-                      -H "Authorization: Bearer $GHCR_CREDENTIALS_PSW" \
-                      https://api.github.com/user/packages/container/pengembalian \
-                      -d '{"visibility":"public"}'
-                '''
-            }
-        }
         
         stage('Cleanup') {
             steps {
