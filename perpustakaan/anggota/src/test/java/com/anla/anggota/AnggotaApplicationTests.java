@@ -2,24 +2,14 @@ package com.anla.anggota;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-/**
- * Test class for AnggotaApplication.
- */
 @SpringBootTest
-@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
+@ActiveProfiles("test")
 class AnggotaApplicationTests {
-
-    /**
-     * Default constructor.
-     */
-    public AnggotaApplicationTests() {
-        // Default constructor
-    }
 
 	@Test
 	void contextLoads() {
-        // This test verifies that the Spring application context can start successfully.
+		// Test passes if context loads
 	}
-
 }
