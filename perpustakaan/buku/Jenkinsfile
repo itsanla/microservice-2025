@@ -3,7 +3,9 @@ pipeline {
     
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('docker-token')
+        GHCR_CREDENTIALS = credentials('github-token')
         DOCKER_IMAGE = 'itsanla/buku'
+        GHCR_IMAGE = 'ghcr.io/itsanla/buku'
         SERVICE_NAME = 'buku'
     }
     
@@ -83,11 +85,13 @@ pipeline {
                 dir('perpustakaan/buku') {
                     sh "docker build --no-cache -t ${DOCKER_IMAGE}:${env.NEW_VERSION} ."
                     sh "docker tag ${DOCKER_IMAGE}:${env.NEW_VERSION} ${DOCKER_IMAGE}:latest"
+                    sh "docker tag ${DOCKER_IMAGE}:${env.NEW_VERSION} ${GHCR_IMAGE}:${env.NEW_VERSION}"
+                    sh "docker tag ${DOCKER_IMAGE}:${env.NEW_VERSION} ${GHCR_IMAGE}:latest"
                 }
             }
         }
         
-        stage('Docker Push') {
+        stage('Push to Docker Hub') {
             steps {
                 sh 'echo $DOCKER_HUB_CREDENTIALS_PSW | docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin'
                 sh "docker push ${DOCKER_IMAGE}:${env.NEW_VERSION}"
@@ -95,9 +99,18 @@ pipeline {
             }
         }
         
+        stage('Push to GHCR') {
+            steps {
+                sh 'echo $GHCR_CREDENTIALS_PSW | docker login ghcr.io -u $GHCR_CREDENTIALS_USR --password-stdin'
+                sh "docker push ${GHCR_IMAGE}:${env.NEW_VERSION}"
+                sh "docker push ${GHCR_IMAGE}:latest"
+            }
+        }
+        
         stage('Cleanup') {
             steps {
-                sh "docker rmi ${DOCKER_IMAGE}:${env.NEW_VERSION} ${DOCKER_IMAGE}:latest"
+                sh "docker rmi ${DOCKER_IMAGE}:${env.NEW_VERSION} ${DOCKER_IMAGE}:latest || true"
+                sh "docker rmi ${GHCR_IMAGE}:${env.NEW_VERSION} ${GHCR_IMAGE}:latest || true"
             }
         }
     }
