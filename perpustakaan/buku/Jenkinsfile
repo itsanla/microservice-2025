@@ -107,6 +107,18 @@ pipeline {
             }
         }
         
+        stage('Make Package Public') {
+            steps {
+                sh '''
+                    curl -X PATCH \
+                      -H "Accept: application/vnd.github+json" \
+                      -H "Authorization: Bearer $GHCR_CREDENTIALS_PSW" \
+                      https://api.github.com/user/packages/container/buku \
+                      -d '{"visibility":"public"}'
+                '''
+            }
+        }
+        
         stage('Cleanup') {
             steps {
                 sh "docker rmi ${DOCKER_IMAGE}:${env.NEW_VERSION} ${DOCKER_IMAGE}:latest || true"
