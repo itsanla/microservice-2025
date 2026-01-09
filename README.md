@@ -28,15 +28,15 @@ Total 20 services yang berjalan di cluster Kubernetes:
 
 | No | Service Name | Type | Description |
 | :---: | :--- | :---: | :--- |
-| 1 | buku-service | Custom | Service katalog dan stok buku |
-| 2 | anggota-service | Custom | Service manajemen data anggota |
-| 3 | pengembalian-service | Custom | Service transaksi pengembalian & denda |
-| 4 | peminjaman-service | Custom | Service transaksi peminjaman buku |
+| 1 | buku | Custom | Service katalog dan stok buku |
+| 2 | anggota | Custom | Service manajemen data anggota |
+| 3 | pengembalian | Custom | Service transaksi pengembalian & denda |
+| 4 | peminjaman | Custom | Service transaksi peminjaman buku |
 | 5 | perpustakaan-gateway | Custom | API Gateway sistem perpustakaan |
 | 6 | marketplace-gateway | Custom | API Gateway sistem marketplace |
-| 7 | produk-service | Custom | Service manajemen data produk |
-| 8 | pelanggan-service | Custom | Service akun pengguna marketplace |
-| 9 | order-service | Custom | Service keranjang belanja dan pesanan |
+| 7 | produk | Custom | Service manajemen data produk |
+| 8 | pelanggan | Custom | Service akun pengguna marketplace |
+| 9 | order | Custom | Service keranjang belanja dan pesanan |
 | 10 | cqrs | Custom | CQRS Event Sourcing service |
 | 11 | eureka-server | Custom | Service Discovery & Registry |
 | 12 | rabbitmq | Official | Message Broker (RabbitMQ) |
