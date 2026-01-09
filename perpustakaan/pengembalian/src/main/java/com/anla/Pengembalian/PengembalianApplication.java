@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public final class PengembalianApplication {
+public class PengembalianApplication {
 
 	private PengembalianApplication() {
 	}

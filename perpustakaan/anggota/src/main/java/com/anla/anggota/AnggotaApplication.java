@@ -9,12 +9,12 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public final class AnggotaApplication {
+public class AnggotaApplication {
 
     private AnggotaApplication() {
     }
 
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 		SpringApplication.run(AnggotaApplication.class, args);
 	}
 	
