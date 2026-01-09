@@ -1,12 +1,9 @@
 package com.anla.Peminjaman.VO;
 
 import com.anla.Peminjaman.model.Peminjaman;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class ResponseTemplateVO {
     private Peminjaman peminjaman;

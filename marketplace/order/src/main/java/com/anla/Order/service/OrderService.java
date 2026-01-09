@@ -1,54 +1,56 @@
 package com.anla.Order.service;
 
 import com.anla.Order.model.Order;
-import com.anla.Order.VO.Pelanggan;
-import com.anla.Order.VO.Product;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.anla.Order.VO.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
     
-    @Autowired
-    private CqrsClientService cqrsClient;
+    private final CqrsClientService cqrsClient;
+    private final RestTemplate restTemplate;
+    private final AtomicLong idCounter = new AtomicLong(1);
     
-    @Autowired
-    private RestTemplate restTemplate;
-    
-    @SuppressWarnings("unchecked")
     public List<Object> getAllOrders() {
         return cqrsClient.findAll();
     }
     
     public Object getOrderById(Long id) {
-        return cqrsClient.findById(String.valueOf(id));
+        return cqrsClient.findById(id.toString());
     }
     
-    public Object getOrderWithDetails(Long id) {
-        Object orderData = cqrsClient.findById(String.valueOf(id));
-        if (orderData != null) {
-            // Fetch pelanggan & produk details via Eureka
-            // Implementation depends on your VO structure
-        }
-        return orderData;
+    public Order createOrder(Order o) {
+        o.setId(idCounter.getAndIncrement());
+        o.setOrderDate(LocalDate.now());
+        o.setStatus("PENDING");
+        cqrsClient.save(o, o.getId().toString());
+        return o;
     }
     
-    public void createOrder(Order order) {
-        order.setOrderDate(LocalDate.now());
-        order.setStatus("PENDING");
-        cqrsClient.save(order, String.valueOf(order.getId()));
-    }
-    
-    public void updateOrder(Long id, Order orderDetails) {
-        orderDetails.setId(id);
-        cqrsClient.update(orderDetails, String.valueOf(id));
+    public Order updateOrder(Long id, Order o) {
+        o.setId(id);
+        cqrsClient.update(o, id.toString());
+        return o;
     }
     
     public void deleteOrder(Long id) {
-        cqrsClient.delete(String.valueOf(id));
+        cqrsClient.delete(id.toString());
+    }
+
+    public ResponseTemplateVO getOrderWithDetailById(Long id) {
+        Object obj = getOrderById(id);
+        if (obj == null) return null;
+        
+        Order o = obj instanceof Order ? (Order) obj : new Order();
+        Pelanggan p = restTemplate.getForObject("http://PELANGGAN-SERVICE/api/pelanggan/" + o.getPelangganId(), Pelanggan.class);
+        Produk pr = restTemplate.getForObject("http://PRODUK-SERVICE/api/produk/" + o.getProdukId(), Produk.class);
+        
+        return new ResponseTemplateVO(o, p, pr);
     }
 }

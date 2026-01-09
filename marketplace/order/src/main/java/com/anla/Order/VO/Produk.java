@@ -5,9 +5,10 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pelanggan {
+public class Produk {
     private Long id;
     private String nama;
-    private String email;
-    private String alamat;
+    private String deskripsi;
+    private Double harga;
+    private Integer stok;
 }

@@ -1,32 +1,25 @@
 package com.anla.Order.model;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private Long id;
-    
+    @JsonProperty("pelanggan_id")
     private Long pelangganId;
+    @JsonProperty("produk_id")
     private Long produkId;
+    @JsonProperty("quantity")
     private Integer quantity;
+    @JsonProperty("total_harga")
     private Double totalHarga;
+    @JsonProperty("status")
     private String status;
+    @JsonProperty("order_date")
     private LocalDate orderDate;
-    
-    @Transient
-    private Object pelanggan;
-    
-    @Transient
-    private Object produk;
 }

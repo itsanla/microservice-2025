@@ -18,7 +18,7 @@ public class Pelanggan {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     /**
      * The customer code.

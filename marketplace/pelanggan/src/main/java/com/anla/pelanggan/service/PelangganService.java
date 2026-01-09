@@ -1,36 +1,39 @@
 package com.anla.pelanggan.service;
 
 import com.anla.pelanggan.model.Pelanggan;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
+@RequiredArgsConstructor
 public class PelangganService {
 
-    @Autowired
-    private CqrsClientService cqrsClient;
+    private final CqrsClientService cqrsClient;
+    private final AtomicLong idCounter = new AtomicLong(1);
 
-    @SuppressWarnings("unchecked")
-    public List<Object> getAllPelanggan() {
+    public Pelanggan save(Pelanggan pelanggan) {
+        pelanggan.setId(idCounter.getAndIncrement());
+        cqrsClient.save(pelanggan, pelanggan.getId().toString());
+        return pelanggan;
+    }
+
+    public Pelanggan update(Pelanggan pelanggan) {
+        cqrsClient.update(pelanggan, pelanggan.getId().toString());
+        return pelanggan;
+    }
+
+    public void delete(Long id) {
+        cqrsClient.delete(id.toString());
+    }
+
+    public Object findById(Long id) {
+        return cqrsClient.findById(id.toString());
+    }
+
+    public List<Object> findAll() {
         return cqrsClient.findAll();
-    }
-
-    public Object getPelangganById(Long id) {
-        return cqrsClient.findById(String.valueOf(id));
-    }
-
-    public void createPelanggan(Pelanggan pelanggan) {
-        cqrsClient.save(pelanggan, String.valueOf(pelanggan.getId()));
-    }
-
-    public void updatePelanggan(Long id, Pelanggan pelangganDetails) {
-        pelangganDetails.setId(id);
-        cqrsClient.update(pelangganDetails, String.valueOf(id));
-    }
-
-    public void deletePelanggan(Long id) {
-        cqrsClient.delete(String.valueOf(id));
     }
 }
