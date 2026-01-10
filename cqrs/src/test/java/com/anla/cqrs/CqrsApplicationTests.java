@@ -1,16 +1,17 @@
 package com.anla.cqrs;
 
+import com.anla.cqrs.service.ReadModelService;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
-import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
-@EnableAutoConfiguration(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @ActiveProfiles("test")
 class CqrsApplicationTests {
+
+	@MockBean
+	private ReadModelService readModelService;
 
 	@Test
 	void contextLoads() {
