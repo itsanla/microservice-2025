@@ -4,7 +4,7 @@
 # Deploy semua service sekaligus (kecuali PVC)
 # 
 # Usage:
-#   kubectl apply -f all-services.yaml
+#   kubectl apply -f all-services-k8s.yaml
 #
 # Note: PVC harus sudah dibuat terlebih dahulu:
 #   kubectl apply -f pvc.yaml
