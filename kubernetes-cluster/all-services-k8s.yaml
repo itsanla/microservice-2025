@@ -147,11 +147,12 @@ kind: Service
 metadata:
   name: cqrs
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
   - name: http
     port: 80
     targetPort: 8088
+    nodePort: 30088
   selector:
     app: cqrs
 ---
@@ -756,11 +757,12 @@ kind: Service
 metadata:
   name: buku
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
   - name: http
     port: 80
     targetPort: 8084
+    nodePort: 30084
   selector:
     app: buku
 ---
