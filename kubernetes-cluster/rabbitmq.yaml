@@ -29,6 +29,15 @@ spec:
       labels:
         app: rabbitmq
     spec:
+      securityContext:
+        fsGroup: 999
+      initContainers:
+      - name: fix-permissions
+        image: busybox:latest
+        command: ['sh', '-c', 'chown -R 999:999 /var/lib/rabbitmq && chmod 700 /var/lib/rabbitmq']
+        volumeMounts:
+        - name: rabbitmq-data
+          mountPath: /var/lib/rabbitmq
       containers:
       - name: rabbitmq
         image: rabbitmq:3-management-alpine
