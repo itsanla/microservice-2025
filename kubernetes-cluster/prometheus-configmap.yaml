@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+
+    scrape_configs:
+    - job_name: 'prometheus'
+      static_configs:
+      - targets: ['localhost:9090']
+
+    - job_name: 'buku-service'
+      static_configs:
+      - targets: ['buku-service:80']
+      metrics_path: '/actuator/prometheus'
+
+    - job_name: 'anggota-service'
+      static_configs:
+      - targets: ['anggota-service:80']
+      metrics_path: '/actuator/prometheus'
+
+    - job_name: 'peminjaman-service'
+      static_configs:
+      - targets: ['peminjaman-service:80']
+      metrics_path: '/actuator/prometheus'
+
+    - job_name: 'pengembalian-service'
+      static_configs:
+      - targets: ['pengembalian-service:80']
+      metrics_path: '/actuator/prometheus'
+
+    - job_name: 'produk-service'
+      static_configs:
+      - targets: ['produk-service:80']
+      metrics_path: '/actuator/prometheus'
+
+    - job_name: 'pelanggan-service'
+      static_configs:
+      - targets: ['pelanggan-service:80']
+      metrics_path: '/actuator/prometheus'
+
+    - job_name: 'order-service'
+      static_configs:
+      - targets: ['order-service:80']
+      metrics_path: '/actuator/prometheus'
+
+    - job_name: 'cqrs-service'
+      static_configs:
+      - targets: ['cqrs-service:80']
+      metrics_path: '/actuator/prometheus'
+
+    - job_name: 'eureka'
+      static_configs:
+      - targets: ['eureka-server:80']
+      metrics_path: '/actuator/prometheus'
