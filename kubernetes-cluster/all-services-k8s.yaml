@@ -745,10 +745,22 @@ spec:
         volumeMounts:
         - name: jenkins-data
           mountPath: /var/jenkins_home
+        - name: docker-sock
+          mountPath: /var/run/docker.sock
+        - name: docker-bin
+          mountPath: /usr/bin/docker
       volumes:
       - name: jenkins-data
         persistentVolumeClaim:
           claimName: jenkins-pvc
+      - name: docker-sock
+        hostPath:
+          path: /var/run/docker.sock
+          type: Socket
+      - name: docker-bin
+        hostPath:
+          path: /usr/bin/docker
+          type: File
 
 ---
 # ==================== buku ====================
