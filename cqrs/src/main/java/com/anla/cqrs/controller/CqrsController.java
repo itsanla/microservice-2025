@@ -47,23 +47,27 @@ public class CqrsController {
     }
     
     @GetMapping("/{serviceName}/query")
-    public ResponseEntity<List<ReadModel>> getAllByService(@PathVariable String serviceName,
+    public ResponseEntity<List<Map<String, Object>>> getAllByService(@PathVariable String serviceName,
                                                            HttpServletRequest request) {
         if (!authService.isAuthorized(serviceName, getClientIP(request))) {
             return ResponseEntity.status(403).build();
         }
-        return ResponseEntity.ok(readModelService.findByServiceName(serviceName));
+        List<Map<String, Object>> data = readModelService.findByServiceName(serviceName)
+            .stream()
+            .map(ReadModel::getData)
+            .toList();
+        return ResponseEntity.ok(data);
     }
     
     @GetMapping("/{serviceName}/query/{id}")
-    public ResponseEntity<ReadModel> getById(@PathVariable String serviceName,
+    public ResponseEntity<Map<String, Object>> getById(@PathVariable String serviceName,
                                              @PathVariable String id,
                                              HttpServletRequest request) {
         if (!authService.isAuthorized(serviceName, getClientIP(request))) {
             return ResponseEntity.status(403).build();
         }
         ReadModel model = readModelService.findByAggregateId(serviceName, id);
-        return model != null ? ResponseEntity.ok(model) : ResponseEntity.notFound().build();
+        return model != null ? ResponseEntity.ok(model.getData()) : ResponseEntity.notFound().build();
     }
     
     @GetMapping("/{serviceName}/events")

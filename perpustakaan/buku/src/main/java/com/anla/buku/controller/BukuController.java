@@ -5,7 +5,7 @@ import com.anla.buku.service.BukuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -16,9 +16,12 @@ public class BukuController {
     private final BukuService bukuService;
     
     @GetMapping
-    public List<Object> getAllBooks() {
+    public Map<String, Object> getAllBooks() {
         log.info("GET /api/buku - Fetching all books");
-        return bukuService.findAll();
+        return Map.of(
+            "serviceName", "buku",
+            "data", bukuService.findAll()
+        );
     }
     
     @GetMapping("/{bookId}")
