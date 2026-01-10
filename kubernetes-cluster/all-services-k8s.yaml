@@ -137,7 +137,7 @@ spec:
             memory: "512Mi"
             cpu: "250m"
           limits:
-            memory: "1Gi"
+            memory: "2Gi"
             cpu: "500m"
 
 ---
@@ -689,6 +689,65 @@ spec:
       - name: grafana-data
         persistentVolumeClaim:
           claimName: grafana-pvc
+
+---
+# ==================== jenkins ====================
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    nodePort: 30000
+  - name: agent
+    port: 50000
+    targetPort: 50000
+  selector:
+    app: jenkins
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      securityContext:
+        runAsUser: 0
+      containers:
+      - name: jenkins
+        image: jenkins/jenkins:lts-jdk17
+        ports:
+        - containerPort: 8080
+        - containerPort: 50000
+        env:
+        - name: JAVA_OPTS
+          value: "-Xmx1024m"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        volumeMounts:
+        - name: jenkins-data
+          mountPath: /var/jenkins_home
+      volumes:
+      - name: jenkins-data
+        persistentVolumeClaim:
+          claimName: jenkins-pvc
 
 ---
 # ==================== buku ====================
