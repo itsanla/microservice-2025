@@ -42,9 +42,9 @@ spec:
         - name: SPRING_DATA_MONGODB_PORT
           value: "27017"
         - name: SPRING_DATA_MONGODB_USERNAME
-          value: "admin"
+          value: "itsanla"
         - name: SPRING_DATA_MONGODB_PASSWORD
-          value: "admin"
+          value: "070078"
         - name: SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE
           value: "admin"
         - name: SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS
