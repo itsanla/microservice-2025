@@ -18,10 +18,10 @@ public class BukuController {
     @GetMapping
     public Map<String, Object> getAllBooks() {
         log.info("GET /api/buku - Fetching all books");
-        return Map.of(
-            "serviceName", "buku",
-            "data", bukuService.findAll()
-        );
+        Map<String, Object> response = new java.util.LinkedHashMap<>();
+        response.put("serviceName", "buku");
+        response.put("data", bukuService.findAll());
+        return response;
     }
     
     @GetMapping("/{bookId}")
