@@ -370,7 +370,15 @@ spec:
       initContainers:
       - name: fix-permissions
         image: busybox:latest
-        command: ['sh', '-c', 'chown -R 999:999 /var/lib/rabbitmq && chmod 700 /var/lib/rabbitmq']
+        command:
+        - sh
+        - -c
+        - |
+          chown -R 999:999 /var/lib/rabbitmq
+          chmod 700 /var/lib/rabbitmq
+          if [ -f /var/lib/rabbitmq/.erlang.cookie ]; then
+            chmod 600 /var/lib/rabbitmq/.erlang.cookie
+          fi
         volumeMounts:
         - name: rabbitmq-data
           mountPath: /var/lib/rabbitmq
