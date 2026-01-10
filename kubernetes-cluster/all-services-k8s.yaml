@@ -75,47 +75,17 @@ data:
 
     - job_name: 'buku-service'
       static_configs:
-      - targets: ['buku-service:80']
-      metrics_path: '/actuator/prometheus'
-
-    - job_name: 'anggota-service'
-      static_configs:
-      - targets: ['anggota-service:80']
-      metrics_path: '/actuator/prometheus'
-
-    - job_name: 'peminjaman-service'
-      static_configs:
-      - targets: ['peminjaman-service:80']
-      metrics_path: '/actuator/prometheus'
-
-    - job_name: 'pengembalian-service'
-      static_configs:
-      - targets: ['pengembalian-service:80']
-      metrics_path: '/actuator/prometheus'
-
-    - job_name: 'produk-service'
-      static_configs:
-      - targets: ['produk-service:80']
-      metrics_path: '/actuator/prometheus'
-
-    - job_name: 'pelanggan-service'
-      static_configs:
-      - targets: ['pelanggan-service:80']
-      metrics_path: '/actuator/prometheus'
-
-    - job_name: 'order-service'
-      static_configs:
-      - targets: ['order-service:80']
+      - targets: ['buku:80']
       metrics_path: '/actuator/prometheus'
 
     - job_name: 'cqrs-service'
       static_configs:
-      - targets: ['cqrs-service:80']
+      - targets: ['cqrs:80']
       metrics_path: '/actuator/prometheus'
 
     - job_name: 'eureka'
       static_configs:
-      - targets: ['eureka-server:80']
+      - targets: ['eureka:80']
       metrics_path: '/actuator/prometheus'
 
 ---
@@ -394,6 +364,8 @@ spec:
       labels:
         app: rabbitmq
     spec:
+      securityContext:
+        fsGroup: 999
       containers:
       - name: rabbitmq
         image: rabbitmq:3-management-alpine
@@ -455,6 +427,8 @@ spec:
       labels:
         app: elasticsearch
     spec:
+      securityContext:
+        fsGroup: 1000
       containers:
       - name: elasticsearch
         image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
@@ -624,6 +598,8 @@ spec:
       labels:
         app: prometheus
     spec:
+      securityContext:
+        fsGroup: 65534
       containers:
       - name: prometheus
         image: prom/prometheus:latest
@@ -685,6 +661,8 @@ spec:
       labels:
         app: grafana
     spec:
+      securityContext:
+        fsGroup: 472
       containers:
       - name: grafana
         image: grafana/grafana:latest
