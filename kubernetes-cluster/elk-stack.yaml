@@ -64,6 +64,8 @@ metadata:
   name: elasticsearch
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: elasticsearch
@@ -127,6 +129,8 @@ metadata:
   name: logstash
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: logstash
@@ -194,6 +198,8 @@ metadata:
   name: kibana
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: kibana
