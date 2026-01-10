@@ -729,6 +729,11 @@ spec:
       containers:
       - name: jenkins
         image: jenkins/jenkins:lts-jdk17
+        command: ["/bin/bash", "-c"]
+        args:
+        - |
+          apt-get update && apt-get install -y docker.io
+          /usr/local/bin/jenkins.sh
         ports:
         - containerPort: 8080
         - containerPort: 50000
