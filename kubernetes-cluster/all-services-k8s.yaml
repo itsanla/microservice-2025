@@ -474,13 +474,13 @@ spec:
         - name: xpack.security.enabled
           value: "false"
         - name: ES_JAVA_OPTS
-          value: "-Xms512m -Xmx512m"
+          value: "-Xms2g -Xmx2g"
         resources:
           requests:
-            memory: "1Gi"
+            memory: "2Gi"
             cpu: "500m"
           limits:
-            memory: "2Gi"
+            memory: "4Gi"
             cpu: "1000m"
         volumeMounts:
         - name: elasticsearch-data
@@ -597,13 +597,15 @@ spec:
         env:
         - name: ELASTICSEARCH_HOSTS
           value: "http://elasticsearch:9200"
+        - name: ELASTICSEARCH_REQUESTTIMEOUT
+          value: "60000"
         resources:
           requests:
-            memory: "512Mi"
-            cpu: "250m"
-          limits:
             memory: "1Gi"
             cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
 
 ---
 # ==================== prometheus ====================
