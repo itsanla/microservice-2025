@@ -110,23 +110,14 @@ pipeline {
                     def releaseNotes = sh(
                         script: "git log -1 --pretty=%B",
                         returnStdout: true
-                    ).trim()
-                    
-                    writeFile file: 'release-body.txt', text: releaseNotes
+                    ).trim().replaceAll('"', '\\\\"').replaceAll('\n', '\\\\n')
                     
                     sh '''
-                        BODY=$(cat release-body.txt | jq -Rs .)
                         curl -X POST \
                           -H "Authorization: token ''' + "${GITHUB_CREDENTIALS_PSW}" + '''" \
                           -H "Accept: application/vnd.github.v3+json" \
                           https://api.github.com/repos/''' + "${REPO_OWNER}/${REPO_NAME}" + '''/releases \
-                          -d "{
-  \"tag_name\": \"''' + "${env.NEW_TAG}" + '''\",
-  \"name\": \"Release ''' + "${env.NEW_VERSION}" + '''\",
-  \"body\": $BODY,
-  \"draft\": false,
-  \"prerelease\": false
-}"
+                          -d '{"tag_name":"''' + "${env.NEW_TAG}" + '''","name":"Release ''' + "${env.NEW_VERSION}" + '''","body":"''' + releaseNotes + '''","draft":false,"prerelease":false}'
                     '''
                 }
             }
