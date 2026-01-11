@@ -112,24 +112,22 @@ pipeline {
                         returnStdout: true
                     ).trim()
                     
-                    // Write to temp file to avoid JSON parsing issues
                     writeFile file: 'release-body.txt', text: releaseNotes
                     
-                    sh """
+                    sh '''
+                        BODY=$(cat release-body.txt | jq -Rs .)
                         curl -X POST \
-                          -H "Authorization: token ${GITHUB_CREDENTIALS_PSW}" \
+                          -H "Authorization: token ''' + "${GITHUB_CREDENTIALS_PSW}" + '''" \
                           -H "Accept: application/vnd.github.v3+json" \
-                          https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases \
-                          -d @- << EOF
-{
-  "tag_name": "${env.NEW_TAG}",
-  "name": "Release ${env.NEW_VERSION}",
-  "body": $(cat release-body.txt | jq -Rs .),
-  "draft": false,
-  "prerelease": false
-}
-EOF
-                    """
+                          https://api.github.com/repos/''' + "${REPO_OWNER}/${REPO_NAME}" + '''/releases \
+                          -d "{
+  \"tag_name\": \"''' + "${env.NEW_TAG}" + '''\",
+  \"name\": \"Release ''' + "${env.NEW_VERSION}" + '''\",
+  \"body\": $BODY,
+  \"draft\": false,
+  \"prerelease\": false
+}"
+                    '''
                 }
             }
         }
