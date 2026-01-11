@@ -3,7 +3,6 @@ package com.example.eureka.eureka;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest(properties = {

@@ -51,6 +51,7 @@ public class ReadModelService {
         return models;
     }
     
+    @SuppressWarnings("unchecked")
     private ReadModel toReadModel(Document doc, String serviceName) {
         ReadModel model = new ReadModel();
         model.setId(doc.getObjectId("_id").toString());

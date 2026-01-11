@@ -3,6 +3,7 @@ package com.anla.cqrs.controller;
 import com.anla.cqrs.event.Event;
 import com.anla.cqrs.model.ReadModel;
 import com.anla.cqrs.service.*;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -94,7 +95,7 @@ public class CqrsController {
                 readModelService.deleteReadModel(serviceName, event.getAggregateId());
             } else {
                 ReadModel model = new ReadModel(null, serviceName, event.getAggregateId(),
-                    objectMapper.readValue(event.getEventData(), Map.class), LocalDateTime.now());
+                    objectMapper.readValue(event.getEventData(), new TypeReference<Map<String, Object>>() {}), LocalDateTime.now());
                 readModelService.saveReadModel(model);
             }
         } catch (Exception e) {
