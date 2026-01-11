@@ -35,9 +35,9 @@ spec:
         - containerPort: 3000
         env:
         - name: GF_SECURITY_ADMIN_USER
-          value: "admin"
+          value: "itsanla"
         - name: GF_SECURITY_ADMIN_PASSWORD
-          value: "admin"
+          value: "070078"
         - name: GF_USERS_ALLOW_SIGN_UP
           value: "false"
         resources:

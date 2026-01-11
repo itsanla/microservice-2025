@@ -56,9 +56,9 @@ spec:
         - containerPort: 15672
         env:
         - name: RABBITMQ_DEFAULT_USER
-          value: "admin"
+          value: "itsanla"
         - name: RABBITMQ_DEFAULT_PASS
-          value: "admin"
+          value: "070078"
         - name: RABBITMQ_DEFAULT_VHOST
           value: "/"
         resources:

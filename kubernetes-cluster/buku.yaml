@@ -3,11 +3,12 @@ kind: Service
 metadata:
   name: buku
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
   - name: http
     port: 80
     targetPort: 8084
+    nodePort: 30084
   selector:
     app: buku
 ---

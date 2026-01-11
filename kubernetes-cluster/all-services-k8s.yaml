@@ -189,9 +189,9 @@ spec:
         - name: SPRING_DATA_MONGODB_PORT
           value: "27017"
         - name: SPRING_DATA_MONGODB_USERNAME
-          value: "admin"
+          value: "itsanla"
         - name: SPRING_DATA_MONGODB_PASSWORD
-          value: "admin"
+          value: "070078"
         - name: SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE
           value: "admin"
         - name: SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS
@@ -207,9 +207,9 @@ spec:
         - name: SPRING_RABBITMQ_PORT
           value: "5672"
         - name: SPRING_RABBITMQ_USERNAME
-          value: "admin"
+          value: "itsanla"
         - name: SPRING_RABBITMQ_PASSWORD
-          value: "admin"
+          value: "070078"
         resources:
           requests:
             memory: "512Mi"
@@ -268,7 +268,7 @@ spec:
         - name: MONGO_INITDB_ROOT_USERNAME
           value: "itsanla"
         - name: MONGO_INITDB_ROOT_PASSWORD
-          value: "itsanla"
+          value: "070078"
         - name: MONGO_INITDB_DATABASE
           value: "cqrs_query"
         resources:
@@ -329,9 +329,12 @@ spec:
         - containerPort: 8081
         env:
         - name: ME_CONFIG_MONGODB_URL
-          value: "mongodb://admin:admin@mongodb/admin"
-        - name: ME_CONFIG_BASICAUTH
-          value: "false"
+          value: "mongodb://itsanla:070078@mongodb/admin"
+        - name: ME_CONFIG_BASICAUTH_USERNAME
+          value: "itsanla"
+        - name: ME_CONFIG_BASICAUTH_PASSWORD
+          value: "070078"
+
         resources:
           requests:
             memory: "256Mi"
@@ -400,9 +403,9 @@ spec:
         - containerPort: 15672
         env:
         - name: RABBITMQ_DEFAULT_USER
-          value: "admin"
+          value: "itsanla"
         - name: RABBITMQ_DEFAULT_PASS
-          value: "admin"
+          value: "070078"
         - name: RABBITMQ_DEFAULT_VHOST
           value: "/"
         resources:
@@ -706,9 +709,9 @@ spec:
         - containerPort: 3000
         env:
         - name: GF_SECURITY_ADMIN_USER
-          value: "admin"
+          value: "itsanla"
         - name: GF_SECURITY_ADMIN_PASSWORD
-          value: "admin"
+          value: "070078"
         - name: GF_USERS_ALLOW_SIGN_UP
           value: "false"
         resources:
@@ -728,90 +731,90 @@ spec:
 
 ---
 # ==================== jenkins ====================
-apiVersion: v1
-kind: Service
-metadata:
-  name: jenkins
-spec:
-  type: NodePort
-  ports:
-  - name: http
-    port: 80
-    targetPort: 8080
-    nodePort: 30000
-  - name: agent
-    port: 50000
-    targetPort: 50000
-  selector:
-    app: jenkins
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: jenkins
-spec:
-  replicas: 1
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app: jenkins
-  template:
-    metadata:
-      labels:
-        app: jenkins
-    spec:
-      securityContext:
-        runAsUser: 0
-      containers:
-      - name: jenkins
-        image: jenkins/jenkins:lts-jdk17
-        command: ["/bin/bash", "-c"]
-        args:
-        - |
-          apt-get update && apt-get install -y docker.io
-          /usr/local/bin/jenkins.sh
-        ports:
-        - containerPort: 8080
-        - containerPort: 50000
-        env:
-        - name: JAVA_OPTS
-          value: "-Xmx1024m"
-        - name: DOCKER_HOST
-          value: "tcp://localhost:2375"
-        resources:
-          requests:
-            memory: "1Gi"
-            cpu: "500m"
-          limits:
-            memory: "2Gi"
-            cpu: "1000m"
-        volumeMounts:
-        - name: jenkins-data
-          mountPath: /var/jenkins_home
-      - name: dind
-        image: docker:24-dind
-        securityContext:
-          privileged: true
-        env:
-        - name: DOCKER_TLS_CERTDIR
-          value: ""
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "250m"
-          limits:
-            memory: "1Gi"
-            cpu: "500m"
-        volumeMounts:
-        - name: docker-storage
-          mountPath: /var/lib/docker
-      volumes:
-      - name: jenkins-data
-        persistentVolumeClaim:
-          claimName: jenkins-pvc
-      - name: docker-storage
-        emptyDir: {}
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: jenkins
+# spec:
+#   type: NodePort
+#   ports:
+#   - name: http
+#     port: 80
+#     targetPort: 8080
+#     nodePort: 30000
+#   - name: agent
+#     port: 50000
+#     targetPort: 50000
+#   selector:
+#     app: jenkins
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: jenkins
+# spec:
+#   replicas: 1
+#   strategy:
+#     type: Recreate
+#   selector:
+#     matchLabels:
+#       app: jenkins
+#   template:
+#     metadata:
+#       labels:
+#         app: jenkins
+#     spec:
+#       securityContext:
+#         runAsUser: 0
+#       containers:
+#       - name: jenkins
+#         image: jenkins/jenkins:lts-jdk17
+#         command: ["/bin/bash", "-c"]
+#         args:
+#         - |
+#           apt-get update && apt-get install -y docker.io
+#           /usr/local/bin/jenkins.sh
+#         ports:
+#         - containerPort: 8080
+#         - containerPort: 50000
+#         env:
+#         - name: JAVA_OPTS
+#           value: "-Xmx1024m"
+#         - name: DOCKER_HOST
+#           value: "tcp://localhost:2375"
+#         resources:
+#           requests:
+#             memory: "1Gi"
+#             cpu: "500m"
+#           limits:
+#             memory: "2Gi"
+#             cpu: "1000m"
+#         volumeMounts:
+#         - name: jenkins-data
+#           mountPath: /var/jenkins_home
+#       - name: dind
+#         image: docker:24-dind
+#         securityContext:
+#           privileged: true
+#         env:
+#         - name: DOCKER_TLS_CERTDIR
+#           value: ""
+#         resources:
+#           requests:
+#             memory: "512Mi"
+#             cpu: "250m"
+#           limits:
+#             memory: "1Gi"
+#             cpu: "500m"
+#         volumeMounts:
+#         - name: docker-storage
+#           mountPath: /var/lib/docker
+#       volumes:
+#       - name: jenkins-data
+#         persistentVolumeClaim:
+#           claimName: jenkins-pvc
+#       - name: docker-storage
+#         emptyDir: {}
 
 ---
 # ==================== buku ====================

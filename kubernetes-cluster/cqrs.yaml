@@ -3,11 +3,12 @@ kind: Service
 metadata:
   name: cqrs
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
   - name: http
     port: 80
     targetPort: 8088
+    nodePort: 30088
   selector:
     app: cqrs
 ---
@@ -60,9 +61,9 @@ spec:
         - name: SPRING_RABBITMQ_PORT
           value: "5672"
         - name: SPRING_RABBITMQ_USERNAME
-          value: "admin"
+          value: "itsanla"
         - name: SPRING_RABBITMQ_PASSWORD
-          value: "admin"
+          value: "070078"
         resources:
           requests:
             memory: "512Mi"
