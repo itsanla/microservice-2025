@@ -818,7 +818,7 @@ spec:
         emptyDir: {}
 
 ---
-# ==================== bukuu ====================
+# ==================== buku ====================
 apiVersion: v1
 kind: Service
 metadata:
