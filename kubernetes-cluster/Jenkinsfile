@@ -95,7 +95,7 @@ pipeline {
                         git config user.name "Jenkins"
                         git config user.email "jenkins@localhost"
                         git tag -a ${env.NEW_TAG} -m "Release ${env.NEW_VERSION}"
-                        git push origin ${env.NEW_TAG}
+                        git push https://${GITHUB_CREDENTIALS_USR}:${GITHUB_CREDENTIALS_PSW}@github.com/${REPO_OWNER}/${REPO_NAME}.git ${env.NEW_TAG}
                     """
                 }
             }
@@ -165,7 +165,7 @@ pipeline {
                 script {
                     sh """
                         git tag -f latest
-                        git push -f origin latest
+                        git push -f https://${GITHUB_CREDENTIALS_USR}:${GITHUB_CREDENTIALS_PSW}@github.com/${REPO_OWNER}/${REPO_NAME}.git latest
                     """
                 }
             }
