@@ -34,7 +34,7 @@ data:
 
     output {
       elasticsearch {
-        hosts => ["http://elasticsearch:80"]
+        hosts => ["http://elasticsearch:9200"]
         index => "microservices-logs-%{+YYYY.MM.dd}"
       }
       stdout {

@@ -50,7 +50,7 @@ data:
 
     output {
       elasticsearch {
-        hosts => ["http://elasticsearch:80"]
+        hosts => ["http://elasticsearch:9200"]
         index => "microservices-logs-%{+YYYY.MM.dd}"
       }
       stdout {
@@ -435,7 +435,7 @@ spec:
   type: NodePort
   ports:
   - name: http
-    port: 80
+    port: 9200
     targetPort: 9200
     nodePort: 30920
   - name: transport
@@ -596,7 +596,7 @@ spec:
         - containerPort: 5601
         env:
         - name: ELASTICSEARCH_HOSTS
-          value: "http://elasticsearch"
+          value: "http://elasticsearch:9200"
         resources:
           requests:
             memory: "512Mi"
