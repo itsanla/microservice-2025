@@ -16,13 +16,6 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Anggota anggota1 = new Anggota();
-        anggota1.setId(1L);
-        anggota1.setNim("2311083015");
-        anggota1.setNama("Anla");
-        anggota1.setAlamat("Padang");
-        anggota1.setJenisKelamin("Laki-laki");
-        anggota1.setEmail("anlaharpanda@gmail.com");
-        cqrsClient.save(anggota1, "1");
+        cqrsClient.save(new Anggota(1L, "2311083015", "Anla", "Padang", "Laki-laki", "anlaharpanda@gmail.com"), "1");
     }
 }

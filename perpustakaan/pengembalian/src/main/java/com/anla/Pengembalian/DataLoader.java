@@ -19,12 +19,6 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Pengembalian pengembalian1 = new Pengembalian();
-        pengembalian1.setId(1L);
-        pengembalian1.setTanggalDikembalikan(LocalDate.now());
-        pengembalian1.setTerlambat(0);
-        pengembalian1.setDenda(BigDecimal.ZERO);
-        pengembalian1.setPeminjamanId(1L);
-        cqrsClient.save(pengembalian1, "1");
+        cqrsClient.save(new Pengembalian(1L, LocalDate.now(), 0, BigDecimal.ZERO, 1L), "1");
     }
 }

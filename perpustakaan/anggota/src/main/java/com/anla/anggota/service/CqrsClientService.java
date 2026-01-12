@@ -15,7 +15,7 @@ public class CqrsClientService {
     @Value("${cqrs.service.url}")
     private String cqrsUrl;
     
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     
     public void save(Object data, String entityId) {
         restTemplate.postForObject(cqrsUrl + "/api/cqrs/anggota/command", 

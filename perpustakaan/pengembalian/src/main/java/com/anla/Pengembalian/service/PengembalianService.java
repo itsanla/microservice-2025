@@ -14,27 +14,26 @@ public class PengembalianService {
     private final CqrsClientService cqrsClient;
     private final AtomicLong idCounter = new AtomicLong(1);
     
-    public Pengembalian createPengembalian(Pengembalian pengembalian) {
+    public Pengembalian save(Pengembalian pengembalian) {
         pengembalian.setId(idCounter.getAndIncrement());
         cqrsClient.save(pengembalian, pengembalian.getId().toString());
         return pengembalian;
     }
     
-    public Pengembalian updatePengembalian(Long id, Pengembalian pengembalian) {
-        pengembalian.setId(id);
-        cqrsClient.update(pengembalian, id.toString());
+    public Pengembalian update(Pengembalian pengembalian) {
+        cqrsClient.update(pengembalian, pengembalian.getId().toString());
         return pengembalian;
     }
     
-    public void deletePengembalian(Long id) {
+    public void delete(Long id) {
         cqrsClient.delete(id.toString());
     }
     
-    public Object getPengembalianById(Long id) {
+    public Object findById(Long id) {
         return cqrsClient.findById(id.toString());
     }
     
-    public List<Object> getAllPengembalian() {
+    public List<Object> findAll() {
         return cqrsClient.findAll();
     }
 }

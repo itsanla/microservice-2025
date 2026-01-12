@@ -10,14 +10,14 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableDiscoveryClient
 public class AnggotaApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(AnggotaApplication.class, args);
-	}
-	
-	@Bean
-	@LoadBalanced
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+    
+    public static void main(String[] args) {
+        SpringApplication.run(AnggotaApplication.class, args);
+    }
+    
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 }

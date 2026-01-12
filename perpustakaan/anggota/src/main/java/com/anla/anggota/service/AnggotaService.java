@@ -14,27 +14,26 @@ public class AnggotaService {
     private final CqrsClientService cqrsClient;
     private final AtomicLong idCounter = new AtomicLong(1);
     
-    public Anggota createAnggota(Anggota anggota) {
+    public Anggota save(Anggota anggota) {
         anggota.setId(idCounter.getAndIncrement());
         cqrsClient.save(anggota, anggota.getId().toString());
         return anggota;
     }
     
-    public Anggota updateAnggota(Long id, Anggota anggota) {
-        anggota.setId(id);
-        cqrsClient.update(anggota, id.toString());
+    public Anggota update(Anggota anggota) {
+        cqrsClient.update(anggota, anggota.getId().toString());
         return anggota;
     }
     
-    public void deleteAnggota(Long id) {
+    public void delete(Long id) {
         cqrsClient.delete(id.toString());
     }
     
-    public Object getAnggotaById(Long id) {
+    public Object findById(Long id) {
         return cqrsClient.findById(id.toString());
     }
     
-    public List<Object> getAllAnggota() {
+    public List<Object> findAll() {
         return cqrsClient.findAll();
     }
 }
