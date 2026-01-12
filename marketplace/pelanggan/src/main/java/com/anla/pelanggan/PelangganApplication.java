@@ -3,25 +3,21 @@ package com.anla.pelanggan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
-/**
- * Main application class for the Pelanggan service.
- */
 @SpringBootApplication
 @EnableDiscoveryClient
-@SuppressWarnings("PMD.UseUtilityClass")
-public final class PelangganApplication {
-
-    private PelangganApplication() {
-        // Private constructor to prevent instantiation
+public class PelangganApplication {
+    
+    public static void main(String[] args) {
+        SpringApplication.run(PelangganApplication.class, args);
     }
-
-    /**
-     * Main method to run the Pelanggan application.
-     * @param args Command line arguments.
-     */
-	public static void main(final String[] args) {
-		SpringApplication.run(PelangganApplication.class, args);
-	}
-
+    
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 }

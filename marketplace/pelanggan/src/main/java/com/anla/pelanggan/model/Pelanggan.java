@@ -1,37 +1,17 @@
 package com.anla.pelanggan.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-/**
- * Represents a customer entity.
- */
 @Data
-@Entity
-@SuppressWarnings("PMD.ShortVariable")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Pelanggan {
-    /**
-     * The unique identifier of the customer.
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private Long id;
-
-    /**
-     * The customer code.
-     */
     private String kode;
-
-    /**
-     * The name of the customer.
-     */
     private String nama;
-
-    /**
-     * The address of the customer.
-     */
     private String alamat;
 }
