@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import lombok.RequiredArgsConstructor;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
@@ -49,17 +50,38 @@ public class PeminjamanService {
         Object obj = getPeminjamanById(id);
         if (obj == null) return null;
         
-        Peminjaman p = obj instanceof Peminjaman ? (Peminjaman) obj : new Peminjaman();
-        Buku b = restTemplate.getForObject("http://BUKU-SERVICE/api/buku/" + p.getBukuId(), Buku.class);
-        Anggota a = restTemplate.getForObject("http://ANGGOTA-SERVICE/api/anggota/" + p.getAnggotaId(), Anggota.class);
-        Pengembalian pg = restTemplate.getForObject("http://PENGEMBALIAN-SERVICE/api/pengembalian/" + id, Pengembalian.class);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> dataMap = (Map<String, Object>) obj;
+        Peminjaman p = new Peminjaman();
+        p.setId(((Number) dataMap.get("id")).longValue());
+        p.setAnggotaId(dataMap.get("anggota_id") != null ? ((Number) dataMap.get("anggota_id")).longValue() : null);
+        p.setBukuId(dataMap.get("buku_id") != null ? ((Number) dataMap.get("buku_id")).longValue() : null);
         
+        Buku b = null;
+        Anggota a = null;
+        Pengembalian pg = null;
+        
+        try {
+            if (p.getBukuId() != null) {
+                b = restTemplate.getForObject("http://buku/api/buku/" + p.getBukuId(), Buku.class);
+            }
+            if (p.getAnggotaId() != null) {
+                a = restTemplate.getForObject("http://anggota/api/anggota/" + p.getAnggotaId(), Anggota.class);
+            }
+            pg = restTemplate.getForObject("http://pengembalian/api/pengembalian/" + id, Pengembalian.class);
+        } catch (Exception e) {
+            // Service call failed, continue with null values
+        }
+        
+        // Hitung denda jika ada pengembalian dan terlambat
         if (pg != null && p.getTanggal_batas() != null && pg.getTanggalDikembalikan() != null) {
-            p.setTanggalDikembalikan(pg.getTanggalDikembalikan());
             long days = ChronoUnit.DAYS.between(p.getTanggal_batas(), pg.getTanggalDikembalikan());
             if (days > 0) {
                 pg.setTerlambat((int) days);
-                pg.setDenda(days * 1000.0);
+                pg.setDenda(java.math.BigDecimal.valueOf(days * 1000));
+            } else {
+                pg.setTerlambat(0);
+                pg.setDenda(java.math.BigDecimal.ZERO);
             }
         }
         

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
@@ -47,9 +48,26 @@ public class OrderService {
         Object obj = getOrderById(id);
         if (obj == null) return null;
         
-        Order o = obj instanceof Order ? (Order) obj : new Order();
-        Pelanggan p = restTemplate.getForObject("http://PELANGGAN-SERVICE/api/pelanggan/" + o.getPelangganId(), Pelanggan.class);
-        Produk pr = restTemplate.getForObject("http://PRODUK-SERVICE/api/produk/" + o.getProdukId(), Produk.class);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> dataMap = (Map<String, Object>) obj;
+        Order o = new Order();
+        o.setId(((Number) dataMap.get("id")).longValue());
+        o.setPelangganId(dataMap.get("pelanggan_id") != null ? ((Number) dataMap.get("pelanggan_id")).longValue() : null);
+        o.setProdukId(dataMap.get("produk_id") != null ? ((Number) dataMap.get("produk_id")).longValue() : null);
+        
+        Pelanggan p = null;
+        Produk pr = null;
+        
+        try {
+            if (o.getPelangganId() != null) {
+                p = restTemplate.getForObject("http://pelanggan/api/pelanggan/" + o.getPelangganId(), Pelanggan.class);
+            }
+            if (o.getProdukId() != null) {
+                pr = restTemplate.getForObject("http://produk/api/produk/" + o.getProdukId(), Produk.class);
+            }
+        } catch (Exception e) {
+            // Service call failed, continue with null values
+        }
         
         return new ResponseTemplateVO(o, p, pr);
     }

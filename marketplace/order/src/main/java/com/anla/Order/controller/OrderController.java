@@ -4,8 +4,9 @@ import com.anla.Order.model.Order;
 import com.anla.Order.service.OrderService;
 import com.anla.Order.VO.ResponseTemplateVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/order")
@@ -15,18 +16,23 @@ public class OrderController {
     private final OrderService service;
     
     @GetMapping
-    public List<Object> getAllOrders() {
-        return service.getAllOrders();
+    public Map<String, Object> getAllOrders() {
+        Map<String, Object> response = new java.util.LinkedHashMap<>();
+        response.put("serviceName", "order");
+        response.put("data", service.getAllOrders());
+        return response;
     }
     
     @GetMapping("/{id}")
-    public Object getOrderById(@PathVariable Long id) {
-        return service.getOrderById(id);
+    public ResponseEntity<Object> getOrderById(@PathVariable Long id) {
+        Object result = service.getOrderById(id);
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.notFound().build();
     }
 
     @GetMapping("/detail/{id}")
-    public ResponseTemplateVO getOrderWithDetailById(@PathVariable Long id) {
-        return service.getOrderWithDetailById(id);
+    public ResponseEntity<ResponseTemplateVO> getOrderWithDetailById(@PathVariable Long id) {
+        ResponseTemplateVO result = service.getOrderWithDetailById(id);
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.notFound().build();
     }
     
     @PostMapping

@@ -5,8 +5,9 @@ import com.anla.Peminjaman.dto.PeminjamanDto;
 import com.anla.Peminjaman.model.Peminjaman;
 import com.anla.Peminjaman.service.PeminjamanService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/peminjaman")
@@ -16,18 +17,23 @@ public class PeminjamanController {
     private final PeminjamanService service;
 
     @GetMapping
-    public List<Object> getAllPeminjaman() {
-        return service.getAllPeminjaman();
+    public Map<String, Object> getAllPeminjaman() {
+        Map<String, Object> response = new java.util.LinkedHashMap<>();
+        response.put("serviceName", "peminjaman");
+        response.put("data", service.getAllPeminjaman());
+        return response;
     }
 
     @GetMapping("/{id}")
-    public Object getPeminjamanById(@PathVariable Long id) {
-        return service.getPeminjamanById(id);
+    public ResponseEntity<Object> getPeminjamanById(@PathVariable Long id) {
+        Object result = service.getPeminjamanById(id);
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.notFound().build();
     }
 
     @GetMapping("/denda/{id}")
-    public PeminjamanDto getPeminjamanWithDenda(@PathVariable Long id) {
-        return service.getPeminjamanWithDenda(id);
+    public ResponseEntity<PeminjamanDto> getPeminjamanWithDenda(@PathVariable Long id) {
+        PeminjamanDto result = service.getPeminjamanWithDenda(id);
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
@@ -46,7 +52,8 @@ public class PeminjamanController {
     }
 
     @GetMapping("/detail/{id}")
-    public ResponseTemplateVO getPeminjamanWithDetailById(@PathVariable Long id) {
-        return service.getPeminjamanWithDetailById(id);
+    public ResponseEntity<ResponseTemplateVO> getPeminjamanWithDetailById(@PathVariable Long id) {
+        ResponseTemplateVO result = service.getPeminjamanWithDetailById(id);
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.notFound().build();
     }
 }
