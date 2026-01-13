@@ -35,9 +35,8 @@ public class CqrsClientService {
     @SuppressWarnings("unchecked")
     public Object findById(String entityId) {
         try {
-            Map<String, Object> response = restTemplate.getForObject(
+            return restTemplate.getForObject(
                 cqrsUrl + "/api/cqrs/pengembalian/query/" + entityId, Map.class);
-            return response != null ? response.get("data") : null;
         } catch (Exception e) {
             return null;
         }
