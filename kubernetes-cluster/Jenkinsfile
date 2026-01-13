@@ -24,12 +24,12 @@ pipeline {
                     
                     // Get latest version from GitHub Releases API
                     def latestRelease = sh(
-                        script: """
+                        script: '''
                             curl -s -H "Authorization: token ${GITHUB_CREDENTIALS_PSW}" \
                               -H "Accept: application/vnd.github.v3+json" \
                               https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest \
-                              | grep '"tag_name":' | sed 's/.*"tag_name": "\(.*\)".*/\1/' || echo ''
-                        """,
+                              | grep '"tag_name":' | head -1 | sed 's/.*"tag_name": "\([^"]*\)".*/\\1/' || echo ''
+                        ''',
                         returnStdout: true
                     ).trim()
                     
