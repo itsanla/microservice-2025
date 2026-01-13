@@ -48,10 +48,6 @@ spec:
           value: "logstash"
         - name: LOGSTASH_PORT
           value: "5000"
-        - name: MANAGEMENT_METRICS_ENABLE_PROCESS
-          value: "false"
-        - name: MANAGEMENT_METRICS_ENABLE_SYSTEM
-          value: "false"
         resources:
           requests:
             memory: "512Mi"

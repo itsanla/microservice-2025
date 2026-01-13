@@ -1,13 +1,5 @@
-FROM openjdk:17.0.1-jdk-oracle
-
-# direktori
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-
-# copy jar file
 COPY target/*.jar app.jar
-
-# expose
 EXPOSE 8083
-
-# run
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-jar", "app.jar"]
