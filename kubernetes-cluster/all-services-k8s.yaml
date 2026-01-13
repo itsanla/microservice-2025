@@ -1218,6 +1218,10 @@ spec:
         - name: LOGSTASH_HOST
           value: "logstash"
         - name: LOGSTASH_PORT
+        - name: MANAGEMENT_METRICS_ENABLE_PROCESS
+          value: "false"
+        - name: MANAGEMENT_METRICS_ENABLE_SYSTEM
+          value: "false"
           value: "5000"
         resources:
           requests:
