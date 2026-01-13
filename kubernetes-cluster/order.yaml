@@ -40,6 +40,10 @@ spec:
           value: "http://eureka/eureka"
         - name: CQRS_SERVICE_URL
           value: "http://cqrs"
+        - name: PELANGGAN_SERVICE_URL
+          value: "http://pelanggan"
+        - name: PRODUK_SERVICE_URL
+          value: "http://produk"
         - name: LOGSTASH_HOST
           value: "logstash"
         - name: LOGSTASH_PORT

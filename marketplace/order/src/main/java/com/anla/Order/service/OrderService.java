@@ -3,6 +3,7 @@ package com.anla.Order.service;
 import com.anla.Order.model.Order;
 import com.anla.Order.VO.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.time.LocalDate;
@@ -17,6 +18,12 @@ public class OrderService {
     private final CqrsClientService cqrsClient;
     private final RestTemplate restTemplate;
     private final AtomicLong idCounter = new AtomicLong(1);
+    
+    @Value("${service.pelanggan.url}")
+    private String pelangganServiceUrl;
+    
+    @Value("${service.produk.url}")
+    private String produkServiceUrl;
     
     public List<Object> getAllOrders() {
         return cqrsClient.findAll();
@@ -60,13 +67,18 @@ public class OrderService {
         
         try {
             if (o.getPelangganId() != null) {
-                p = restTemplate.getForObject("http://pelanggan/api/pelanggan/" + o.getPelangganId(), Pelanggan.class);
-            }
-            if (o.getProdukId() != null) {
-                pr = restTemplate.getForObject("http://produk/api/produk/" + o.getProdukId(), Produk.class);
+                p = restTemplate.getForObject(pelangganServiceUrl + "/api/pelanggan/" + o.getPelangganId(), Pelanggan.class);
             }
         } catch (Exception e) {
-            // Service call failed, continue with null values
+            System.err.println("Error fetching pelanggan: " + e.getMessage());
+        }
+        
+        try {
+            if (o.getProdukId() != null) {
+                pr = restTemplate.getForObject(produkServiceUrl + "/api/produk/" + o.getProdukId(), Produk.class);
+            }
+        } catch (Exception e) {
+            System.err.println("Error fetching produk: " + e.getMessage());
         }
         
         return new ResponseTemplateVO(o, p, pr);

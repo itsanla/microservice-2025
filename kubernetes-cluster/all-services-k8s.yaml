@@ -1143,6 +1143,12 @@ spec:
           value: "http://eureka/eureka"
         - name: CQRS_SERVICE_URL
           value: "http://cqrs"
+        - name: ANGGOTA_SERVICE_URL
+          value: "http://anggota"
+        - name: BUKU_SERVICE_URL
+          value: "http://buku"
+        - name: PENGEMBALIAN_SERVICE_URL
+          value: "http://pengembalian"
         - name: RABBITMQ_HOST
           value: "rabbitmq"
         - name: RABBITMQ_PORT
@@ -1202,6 +1208,10 @@ spec:
         - name: SPRING_PROFILES_ACTIVE
           value: "k8s"
         - name: EUREKA_URL
+        - name: PELANGGAN_SERVICE_URL
+          value: "http://pelanggan"
+        - name: PRODUK_SERVICE_URL
+          value: "http://produk"
           value: "http://eureka/eureka"
         - name: CQRS_SERVICE_URL
           value: "http://cqrs"

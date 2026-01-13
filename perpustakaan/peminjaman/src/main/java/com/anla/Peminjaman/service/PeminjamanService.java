@@ -4,6 +4,7 @@ import com.anla.Peminjaman.dto.PeminjamanDto;
 import com.anla.Peminjaman.dto.PeminjamanMessage;
 import com.anla.Peminjaman.model.Peminjaman;
 import com.anla.Peminjaman.VO.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,15 @@ public class PeminjamanService {
     private final RestTemplate restTemplate;
     private final PeminjamanProducerService producer;
     private final AtomicLong idCounter = new AtomicLong(1);
+    
+    @Value("${service.anggota.url}")
+    private String anggotaServiceUrl;
+    
+    @Value("${service.buku.url}")
+    private String bukuServiceUrl;
+    
+    @Value("${service.pengembalian.url}")
+    private String pengembalianServiceUrl;
 
     public List<Object> getAllPeminjaman() {
         return cqrsClient.findAll();
@@ -63,14 +73,24 @@ public class PeminjamanService {
         
         try {
             if (p.getBukuId() != null) {
-                b = restTemplate.getForObject("http://buku/api/buku/" + p.getBukuId(), Buku.class);
+                b = restTemplate.getForObject(bukuServiceUrl + "/api/buku/" + p.getBukuId(), Buku.class);
             }
-            if (p.getAnggotaId() != null) {
-                a = restTemplate.getForObject("http://anggota/api/anggota/" + p.getAnggotaId(), Anggota.class);
-            }
-            pg = restTemplate.getForObject("http://pengembalian/api/pengembalian/" + id, Pengembalian.class);
         } catch (Exception e) {
-            // Service call failed, continue with null values
+            System.err.println("Error fetching buku: " + e.getMessage());
+        }
+        
+        try {
+            if (p.getAnggotaId() != null) {
+                a = restTemplate.getForObject(anggotaServiceUrl + "/api/anggota/" + p.getAnggotaId(), Anggota.class);
+            }
+        } catch (Exception e) {
+            System.err.println("Error fetching anggota: " + e.getMessage());
+        }
+        
+        try {
+            pg = restTemplate.getForObject(pengembalianServiceUrl + "/api/pengembalian/" + id, Pengembalian.class);
+        } catch (Exception e) {
+            System.err.println("Error fetching pengembalian: " + e.getMessage());
         }
         
         // Hitung denda jika ada pengembalian dan terlambat
