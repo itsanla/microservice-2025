@@ -22,19 +22,23 @@ pipeline {
                     def commitMsg = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
                     echo "Commit message: ${commitMsg}"
                     
-                    // Get latest tag from GitHub
-                    def latestTag = sh(
+                    // Get latest version from GitHub Releases API
+                    def latestRelease = sh(
                         script: """
-                            git fetch --tags
-                            git tag -l 'v*' | sort -V | tail -1
+                            curl -s -H "Authorization: token ${GITHUB_CREDENTIALS_PSW}" \
+                              -H "Accept: application/vnd.github.v3+json" \
+                              https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest \
+                              | grep '"tag_name":' | sed 's/.*"tag_name": "\(.*\)".*/\1/' || echo ''
                         """,
                         returnStdout: true
                     ).trim()
                     
-                    if (latestTag == '') {
+                    if (latestRelease == '' || latestRelease == 'null') {
                         env.CURRENT_VERSION = '0.0.0'
+                        echo "No previous releases found, starting from 0.0.0"
                     } else {
-                        env.CURRENT_VERSION = latestTag.replaceAll('v', '')
+                        env.CURRENT_VERSION = latestRelease.replaceAll('v', '')
+                        echo "Latest GitHub Release: ${latestRelease}"
                     }
                     
                     // Parse version
