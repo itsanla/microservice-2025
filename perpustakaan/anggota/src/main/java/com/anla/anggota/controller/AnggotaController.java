@@ -4,6 +4,7 @@ import com.anla.anggota.model.Anggota;
 import com.anla.anggota.service.AnggotaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
@@ -25,9 +26,10 @@ public class AnggotaController {
     }
     
     @GetMapping("/{id}")
-    public Object getMemberById(@PathVariable Long id) {
+    public ResponseEntity<Object> getMemberById(@PathVariable Long id) {
         log.info("GET /api/anggota/{} - Fetching member by ID", id);
-        return anggotaService.findById(id);
+        Object result = anggotaService.findById(id);
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.notFound().build();
     }
     
     @PostMapping

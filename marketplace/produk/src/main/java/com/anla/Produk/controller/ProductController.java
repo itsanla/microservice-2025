@@ -4,6 +4,7 @@ import com.anla.Produk.model.Product;
 import com.anla.Produk.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
@@ -25,9 +26,10 @@ public class ProductController {
     }
     
     @GetMapping("/{id}")
-    public Object getProductById(@PathVariable Long id) {
+    public ResponseEntity<Object> getProductById(@PathVariable Long id) {
         log.info("GET /api/produk/{} - Fetching product by ID", id);
-        return productService.findById(id);
+        Object result = productService.findById(id);
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.notFound().build();
     }
     
     @PostMapping

@@ -4,6 +4,7 @@ import com.anla.buku.model.Buku;
 import com.anla.buku.service.BukuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
@@ -25,9 +26,10 @@ public class BukuController {
     }
     
     @GetMapping("/{bookId}")
-    public Object getBookById(@PathVariable Long bookId) {
+    public ResponseEntity<Object> getBookById(@PathVariable Long bookId) {
         log.info("GET /api/buku/{} - Fetching book by ID", bookId);
-        return bukuService.findById(bookId);
+        Object result = bukuService.findById(bookId);
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.notFound().build();
     }
     
     @PostMapping

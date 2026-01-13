@@ -4,6 +4,7 @@ import com.anla.pelanggan.model.Pelanggan;
 import com.anla.pelanggan.service.PelangganService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
@@ -25,9 +26,10 @@ public class PelangganController {
     }
     
     @GetMapping("/{id}")
-    public Object getCustomerById(@PathVariable Long id) {
+    public ResponseEntity<Object> getCustomerById(@PathVariable Long id) {
         log.info("GET /api/pelanggan/{} - Fetching customer by ID", id);
-        return pelangganService.findById(id);
+        Object result = pelangganService.findById(id);
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.notFound().build();
     }
     
     @PostMapping

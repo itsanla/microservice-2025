@@ -4,6 +4,7 @@ import com.anla.Pengembalian.model.Pengembalian;
 import com.anla.Pengembalian.service.PengembalianService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
@@ -25,9 +26,10 @@ public class PengembalianController {
     }
     
     @GetMapping("/{id}")
-    public Object getReturnById(@PathVariable Long id) {
+    public ResponseEntity<Object> getReturnById(@PathVariable Long id) {
         log.info("GET /api/pengembalian/{} - Fetching return by ID", id);
-        return pengembalianService.findById(id);
+        Object result = pengembalianService.findById(id);
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.notFound().build();
     }
     
     @PostMapping

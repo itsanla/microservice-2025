@@ -7,7 +7,7 @@ spec:
   ports:
   - name: http
     port: 80
-    targetPort: 8092
+    targetPort: 8081
     nodePort: 30092
   selector:
     app: produk
@@ -32,7 +32,7 @@ spec:
       - name: produk
         image: itsanla/produk:latest
         ports:
-        - containerPort: 8092
+        - containerPort: 8081
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "k8s"

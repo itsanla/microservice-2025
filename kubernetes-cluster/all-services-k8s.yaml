@@ -999,7 +999,7 @@ spec:
   ports:
   - name: http
     port: 80
-    targetPort: 8091
+    targetPort: 8082
     nodePort: 30091
   selector:
     app: pelanggan
@@ -1024,7 +1024,7 @@ spec:
       - name: pelanggan
         image: itsanla/pelanggan:latest
         ports:
-        - containerPort: 8091
+        - containerPort: 8082
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "k8s"
@@ -1055,7 +1055,7 @@ spec:
   ports:
   - name: http
     port: 80
-    targetPort: 8092
+    targetPort: 8081
     nodePort: 30092
   selector:
     app: produk
@@ -1080,7 +1080,7 @@ spec:
       - name: produk
         image: itsanla/produk:latest
         ports:
-        - containerPort: 8092
+        - containerPort: 8081
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "k8s"
