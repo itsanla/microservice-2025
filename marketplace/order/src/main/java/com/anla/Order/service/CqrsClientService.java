@@ -1,4 +1,4 @@
-package com.anla.order.service;
+package com.anla.Order.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -47,7 +47,7 @@ public class CqrsClientService {
             "serviceName", "order",
             "aggregateId", entityId,
             "eventType", "DELETE",
-            "eventData", "{\\"deleted\\":true}",
+            "eventData", "{\"deleted\":true}",
             "timestamp", LocalDateTime.now().toString(),
             "version", 1L
         ));

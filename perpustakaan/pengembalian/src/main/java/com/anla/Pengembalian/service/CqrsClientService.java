@@ -1,4 +1,4 @@
-package com.anla.pengembalian.service;
+package com.anla.Pengembalian.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -47,7 +47,7 @@ public class CqrsClientService {
             "serviceName", "pengembalian",
             "aggregateId", entityId,
             "eventType", "DELETE",
-            "eventData", "{\\"deleted\\":true}",
+            "eventData", "{\"deleted\":true}",
             "timestamp", LocalDateTime.now().toString(),
             "version", 1L
         ));

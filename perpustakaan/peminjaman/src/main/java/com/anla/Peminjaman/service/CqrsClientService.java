@@ -1,4 +1,4 @@
-package com.anla.peminjaman.service;
+package com.anla.Peminjaman.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
