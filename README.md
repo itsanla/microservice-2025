@@ -1,71 +1,160 @@
 # Microservices Architecture 2025
 
-Microservices architecture dengan Kubernetes cluster untuk sistem Perpustakaan dan Marketplace.
+> Enterprise-grade microservices system with Kubernetes orchestration for Library Management and E-Commerce Marketplace.
 
 ## 🏗️ Infrastructure
 
-### Kubernetes Cluster Performance
-
-Uji coba deployment pada AWS EC2 dengan 5 nodes:
+### Kubernetes Cluster on AWS EC2
 
 ![AWS Kubernetes Nodes](assets/aws-node.png)
 
-**Spesifikasi per Node:**
-- Instance Type: m7i.large
-- vCPU: 2 cores
-- RAM: 8 GB
-- Total Cluster: 10 vCPU, 40 GB RAM
+**Cluster Specifications:**
+- **Nodes:** 5 × AWS EC2 m7i.large
+- **Per Node:** 2 vCPU, 8 GB RAM
+- **Total Resources:** 10 vCPU, 40 GB RAM
+- **Orchestration:** Kubernetes with DNS-based service discovery
 
-## 🌐 Service Endpoints
+---
 
-Berikut adalah daftar lengkap 16 domain aktif untuk layanan Perpustakaan, Marketplace, dan Infrastruktur pendukung:
+## 🎯 Architecture Overview
 
-| Domain / Endpoint | Deskripsi |
-| :--- | :--- |
-| [perpustakaan-gateway.mooo.com](http://perpustakaan-gateway.mooo.com) | **[Perpustakaan]** API Gateway utama untuk akses sistem perpustakaan. |
-| [anggota.mooo.com](http://anggota.mooo.com) | **[Perpustakaan]** Service manajemen data anggota. |
-| [bukuu.mooo.com](http://bukuu.mooo.com) | **[Perpustakaan]** Service katalog dan stok buku. |
-| [peminjamann.mooo.com](http://peminjamann.mooo.com) | **[Perpustakaan]** Service transaksi peminjaman buku. |
-| [pengembalian.mooo.com](http://pengembalian.mooo.com) | **[Perpustakaan]** Service transaksi pengembalian & denda. |
-| [marketplace-gateway.mooo.com](http://marketplace-gateway.mooo.com) | **[Marketplace]** API Gateway utama untuk akses sistem jual-beli. |
-| [pelanggan.mooo.com](http://pelanggan.mooo.com) | **[Marketplace]** Service akun pengguna (penjual/pembeli). |
-| [produk.mooo.com](http://produk.mooo.com) | **[Marketplace]** Service manajemen data produk jual. |
-| [orderr.mooo.com](http://orderr.mooo.com) | **[Marketplace]** Service keranjang belanja dan pesanan. |
-| [jenkinss.mooo.com](http://jenkinss.mooo.com) | **[Infra]** Jenkins CI/CD untuk otomatisasi deployment. |
-| [graffana.mooo.com](http://graffana.mooo.com) | **[Infra]** Dashboard monitoring metrics (Prometheus viz). |
-| [kibbana.mooo.com](http://kibbana.mooo.com) | **[Infra]** Dashboard logs & searching (ELK Stack). |
-| [eurekaa.mooo.com](http://eurekaa.mooo.com) | **[Infra]** Service Discovery & Registry server. |
-| [rabbittmq.mooo.com](http://rabbittmq.mooo.com) | **[Infra]** Message Broker Management UI. |
-| [dbh2.mooo.com](http://dbh2.mooo.com) | **[DB]** Console H2 Database (Relational). |
-| [dbmongo.mooo.com](http://dbmongo.mooo.com) | **[DB]** Console Admin MongoDB (NoSQL). |
+### Core Components
+- **11 Custom Microservices** - Business logic services
+- **9 Official Images** - Infrastructure & monitoring
+- **2 API Gateways** - Centralized routing
+- **CQRS Pattern** - Event sourcing with H2 & MongoDB
+- **Async Messaging** - RabbitMQ for inter-service communication
 
+### Technology Stack
+- **Backend:** Spring Boot 3.5.5, Spring Cloud 2025.0.0
+- **Databases:** H2 (Command), MongoDB (Query)
+- **Message Broker:** RabbitMQ
+- **Service Discovery:** Eureka (display), Kubernetes DNS (actual)
+- **Monitoring:** Prometheus + Grafana
+- **Logging:** ELK Stack (Elasticsearch, Logstash, Kibana)
+- **CI/CD:** Jenkins with Docker-in-Docker
 
-## 📦 Service List
+---
 
-Total 20 services yang berjalan di cluster Kubernetes:
+## 🌐 Live Endpoints
 
-| No | Service Name | Type | Description |
-| :---: | :--- | :---: | :--- |
-| 1 | buku | Custom | Service katalog dan stok buku |
-| 2 | anggota | Custom | Service manajemen data anggota |
-| 3 | pengembalian | Custom | Service transaksi pengembalian & denda |
-| 4 | peminjaman | Custom | Service transaksi peminjaman buku |
-| 5 | perpustakaan-gateway | Custom | API Gateway sistem perpustakaan |
-| 6 | marketplace-gateway | Custom | API Gateway sistem marketplace |
-| 7 | produk | Custom | Service manajemen data produk |
-| 8 | pelanggan | Custom | Service akun pengguna marketplace |
-| 9 | order | Custom | Service keranjang belanja dan pesanan |
-| 10 | cqrs | Custom | CQRS Event Sourcing service |
-| 11 | eureka-server | Custom | Service Discovery & Registry |
-| 12 | rabbitmq | Official | Message Broker (RabbitMQ) |
-| 13 | mongodb | Official | NoSQL Database (MongoDB) |
-| 14 | mongo-express | Official | MongoDB Admin Console |
-| 15 | jenkins | Official | CI/CD Automation Server |
-| 16 | prometheus | Official | Metrics Collection & Monitoring |
-| 17 | grafana | Official | Metrics Visualization Dashboard |
-| 18 | elasticsearch | Official | Search & Analytics Engine |
-| 19 | logstash | Official | Log Processing Pipeline |
-| 20 | kibana | Official | Log Visualization Dashboard |
-| 21 | DIND | Official | docker in docker untuk build jenkins |
+### API Gateways
+| Service | URL | Description |
+|---------|-----|-------------|
+| Perpustakaan Gateway | [perpustakaan-gateway.mooo.com](http://perpustakaan-gateway.mooo.com) | Library system API gateway |
+| Marketplace Gateway | [marketplace-gateway.mooo.com](http://marketplace-gateway.mooo.com) | E-commerce API gateway |
 
-**Summary:** 11 Custom Services + 9 Official Images = 20 Total Services
+### Library Services
+| Service | URL | Function |
+|---------|-----|----------|
+| Buku | [bukuu.mooo.com](http://bukuu.mooo.com) | Book catalog & inventory |
+| Anggota | [anggota.mooo.com](http://anggota.mooo.com) | Member management |
+| Peminjaman | [peminjamann.mooo.com](http://peminjamann.mooo.com) | Borrowing transactions |
+| Pengembalian | [pengembalian.mooo.com](http://pengembalian.mooo.com) | Return & fine processing |
+
+### Marketplace Services
+| Service | URL | Function |
+|---------|-----|----------|
+| Produk | [produk.mooo.com](http://produk.mooo.com) | Product management |
+| Pelanggan | [pelanggan.mooo.com](http://pelanggan.mooo.com) | Customer accounts |
+| Order | [orderr.mooo.com](http://orderr.mooo.com) | Shopping cart & orders |
+
+### Infrastructure
+| Service | URL | Purpose |
+|---------|-----|----------|
+| Jenkins | [jenkinss.mooo.com](http://jenkinss.mooo.com) | CI/CD automation |
+| Grafana | [graffana.mooo.com](http://graffana.mooo.com) | Metrics visualization |
+| Kibana | [kibbana.mooo.com](http://kibbana.mooo.com) | Log analytics |
+| Eureka | [eurekaa.mooo.com](http://eurekaa.mooo.com) | Service registry |
+| RabbitMQ | [rabbittmq.mooo.com](http://rabbittmq.mooo.com) | Message broker UI |
+| H2 Console | [dbh2.mooo.com](http://dbh2.mooo.com) | Command database |
+| Mongo Express | [dbmongo.mooo.com](http://dbmongo.mooo.com) | Query database |
+
+---
+
+## 📊 Service Inventory
+
+### Custom Microservices (11)
+1. **perpustakaan-gateway** - Library API gateway
+2. **marketplace-gateway** - E-commerce API gateway
+3. **buku** - Book service
+4. **anggota** - Member service
+5. **peminjaman** - Borrowing service
+6. **pengembalian** - Return service
+7. **produk** - Product service
+8. **pelanggan** - Customer service
+9. **order** - Order service
+10. **cqrs** - Event sourcing service
+11. **eureka-server** - Service registry
+
+### Infrastructure Services (9)
+- **RabbitMQ** - Message broker with Prometheus plugin
+- **MongoDB** - NoSQL database with exporter
+- **Mongo Express** - MongoDB admin UI
+- **Elasticsearch** - Search & analytics engine
+- **Logstash** - Log processing pipeline
+- **Kibana** - Log visualization
+- **Prometheus** - Metrics collection
+- **Grafana** - Metrics dashboard
+- **Jenkins + DIND** - CI/CD with Docker-in-Docker
+
+---
+
+## 🚀 Key Features
+
+### Asynchronous Architecture
+- **Service → RabbitMQ → CQRS** - Non-blocking command processing
+- **CQRS → H2 → RabbitMQ → MongoDB** - Event-driven read model updates
+- **Benefits:** High throughput, fault tolerance, eventual consistency
+
+### Observability
+- **Metrics:** All services expose Prometheus endpoints
+- **Logs:** Centralized logging via Logstash to Elasticsearch
+- **Tracing:** Service-level monitoring with Grafana dashboards
+
+### DevOps
+- **Auto-versioning:** Semantic versioning via commit messages
+- **Multi-registry:** Docker Hub + GitHub Container Registry
+- **Zero-downtime:** Rolling updates with Kubernetes
+
+---
+
+## 📁 Project Structure
+
+```
+.
+├── perpustakaan/          # Library microservices
+├── marketplace/           # E-commerce microservices
+├── cqrs/                  # Event sourcing service
+├── eureka/                # Service discovery
+├── kubernetes-cluster/    # K8s manifests
+├── jenkins/               # CI/CD configs
+├── elk/                   # ELK Stack configs
+├── monitor/               # Prometheus & Grafana
+└── docker-compose.yml     # Local development
+```
+
+---
+
+## 🛠️ Quick Start
+
+### Kubernetes Deployment
+```bash
+# Deploy PVC first
+kubectl apply -f kubernetes-cluster/pvc.yaml
+
+# Deploy all services
+kubectl apply -f kubernetes-cluster/all-services-k8s.yaml
+```
+
+### Local Development
+```bash
+# Run with Docker Compose
+docker-compose up -d
+```
+
+---
+
+## 📝 License
+
+MIT License - See [LICENSE](LICENSE) for details.
