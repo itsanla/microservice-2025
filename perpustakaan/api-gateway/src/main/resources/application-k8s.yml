@@ -1,0 +1,36 @@
+server:
+  port: 9001
+
+spring:
+  application:
+    name: API-GATEWAY-PERPUSTAKAAN
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+          - id: ANGGOTA-SERVICE
+            uri: http://anggota
+            predicates:
+            - Path=/api/anggota/**
+          - id: BUKU-SERVICE
+            uri: http://buku
+            predicates:
+            - Path=/api/buku/**
+          - id: PEMINJAMAN-SERVICE
+            uri: http://peminjaman
+            predicates:
+            - Path=/api/peminjaman/**
+          - id: PENGEMBALIAN-SERVICE
+            uri: http://pengembalian
+            predicates:
+            - Path=/api/pengembalian/**
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: false
+    service-url:
+      defaultZone: ${EUREKA_URL:http://eureka/eureka}
+  instance:
+    hostname: perpustakaan-gateway
