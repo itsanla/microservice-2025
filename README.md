@@ -1,3 +1,21 @@
+# Microservices Architecture 2025
+
+Microservices architecture dengan Kubernetes cluster untuk sistem Perpustakaan dan Marketplace.
+
+## 🏗️ Infrastructure
+
+### Kubernetes Cluster Performance
+
+Uji coba deployment pada AWS EC2 dengan 5 nodes:
+
+![AWS Kubernetes Nodes](assets/aws-node.png)
+
+**Spesifikasi per Node:**
+- Instance Type: m7i.large
+- vCPU: 2 cores
+- RAM: 8 GB
+- Total Cluster: 10 vCPU, 40 GB RAM
+
 ## 🌐 Service Endpoints
 
 Berikut adalah daftar lengkap 16 domain aktif untuk layanan Perpustakaan, Marketplace, dan Infrastruktur pendukung:
