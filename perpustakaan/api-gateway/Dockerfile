@@ -1,4 +1,4 @@
-FROM openjdk:17.0.1-jdk-oracle
+FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /app
 
