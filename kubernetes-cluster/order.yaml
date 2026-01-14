@@ -47,6 +47,7 @@ spec:
         - name: LOGSTASH_HOST
           value: "logstash"
         - name: LOGSTASH_PORT
+          value: "5000"
         - name: SPRING_RABBITMQ_HOST
           value: "rabbitmq"
         - name: SPRING_RABBITMQ_PORT
