@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: perpustakaan-gateway
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    targetPort: 9001
+    nodePort: 30901
+  selector:
+    app: perpustakaan-gateway
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: perpustakaan-gateway
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: perpustakaan-gateway
+  template:
+    metadata:
+      labels:
+        app: perpustakaan-gateway
+    spec:
+      containers:
+      - name: perpustakaan-gateway
+        image: itsanla/perpustakaan-gateway:latest
+        ports:
+        - containerPort: 9001
+        env:
+        - name: EUREKA_URL
+          value: "http://eureka/eureka"
+        - name: EUREKA_FETCH_REGISTRY
+          value: "false"
+        - name: ANGGOTA_SERVICE_URL
+          value: "http://anggota"
+        - name: BUKU_SERVICE_URL
+          value: "http://buku"
+        - name: PEMINJAMAN_SERVICE_URL
+          value: "http://peminjaman"
+        - name: PENGEMBALIAN_SERVICE_URL
+          value: "http://pengembalian"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"

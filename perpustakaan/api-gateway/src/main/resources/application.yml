@@ -10,27 +10,27 @@ spring:
         webmvc:
           routes:
           - id: ANGGOTA-SERVICE
-            uri: http://anggota
+            uri: ${ANGGOTA_SERVICE_URL:lb://ANGGOTA-SERVICE}
             predicates:
             - Path=/api/anggota/**
           - id: BUKU-SERVICE
-            uri: http://buku
+            uri: ${BUKU_SERVICE_URL:lb://BUKU-SERVICE}
             predicates:
             - Path=/api/buku/**
           - id: PEMINJAMAN-SERVICE
-            uri: http://peminjaman
+            uri: ${PEMINJAMAN_SERVICE_URL:lb://PEMINJAMAN-SERVICE}
             predicates:
             - Path=/api/peminjaman/**
           - id: PENGEMBALIAN-SERVICE
-            uri: http://pengembalian
+            uri: ${PENGEMBALIAN_SERVICE_URL:lb://PENGEMBALIAN-SERVICE}
             predicates:
             - Path=/api/pengembalian/**
 
 eureka:
   client:
     register-with-eureka: true
-    fetch-registry: false
+    fetch-registry: ${EUREKA_FETCH_REGISTRY:true}
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
   instance:
     hostname: localhost

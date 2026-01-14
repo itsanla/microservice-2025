@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: marketplace-gateway
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    targetPort: 9000
+    nodePort: 30900
+  selector:
+    app: marketplace-gateway
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marketplace-gateway
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: marketplace-gateway
+  template:
+    metadata:
+      labels:
+        app: marketplace-gateway
+    spec:
+      containers:
+      - name: marketplace-gateway
+        image: itsanla/marketplace-gateway:latest
+        ports:
+        - containerPort: 9000
+        env:
+        - name: EUREKA_URL
+          value: "http://eureka/eureka"
+        - name: EUREKA_FETCH_REGISTRY
+          value: "false"
+        - name: PRODUK_SERVICE_URL
+          value: "http://produk"
+        - name: PELANGGAN_SERVICE_URL
+          value: "http://pelanggan"
+        - name: ORDER_SERVICE_URL
+          value: "http://order"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
