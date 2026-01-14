@@ -48,5 +48,6 @@ Total 20 services yang berjalan di cluster Kubernetes:
 | 18 | elasticsearch | Official | Search & Analytics Engine |
 | 19 | logstash | Official | Log Processing Pipeline |
 | 20 | kibana | Official | Log Visualization Dashboard |
+| 21 | DIND | Official | docker in docker untuk build jenkins |
 
 **Summary:** 11 Custom Services + 9 Official Images = 20 Total Services

@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: API-GATEWAY-MARKETPLACE
+    name: MARKETPLACE-GATEWAY-EUREKA
   cloud:
     gateway:
       server:
@@ -30,3 +30,23 @@ eureka:
       defaultZone: ${EUREKA_URL:http://eureka/eureka}
   instance:
     hostname: marketplace-gateway
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+logging:
+  level:
+    org.springframework.web: INFO
+    com.anla: INFO

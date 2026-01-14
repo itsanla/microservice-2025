@@ -12,6 +12,9 @@ spec:
   - name: amqp
     port: 5672
     targetPort: 5672
+  - name: prometheus
+    port: 15692
+    targetPort: 15692
   selector:
     app: rabbitmq
 ---
@@ -54,6 +57,7 @@ spec:
         ports:
         - containerPort: 5672
         - containerPort: 15672
+        - containerPort: 15692
         env:
         - name: RABBITMQ_DEFAULT_USER
           value: "itsanla"
@@ -61,6 +65,12 @@ spec:
           value: "070078"
         - name: RABBITMQ_DEFAULT_VHOST
           value: "/"
+        command:
+        - sh
+        - -c
+        - |
+          rabbitmq-plugins enable rabbitmq_prometheus --offline
+          docker-entrypoint.sh rabbitmq-server
         resources:
           requests:
             memory: "512Mi"

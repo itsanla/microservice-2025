@@ -38,6 +38,10 @@ spec:
           value: "k8s"
         - name: EUREKA_URL
           value: "http://eureka/eureka"
+        - name: LOGSTASH_HOST
+          value: "logstash"
+        - name: LOGSTASH_PORT
+          value: "5000"
         resources:
           requests:
             memory: "512Mi"

@@ -11,6 +11,9 @@ spec:
   - name: mongodb
     port: 27017
     targetPort: 27017
+  - name: prometheus
+    port: 9216
+    targetPort: 9216
   selector:
     app: mongodb
 ---
@@ -54,6 +57,20 @@ spec:
           mountPath: /data/db
         - name: mongodb-config
           mountPath: /data/configdb
+      - name: mongodb-exporter
+        image: percona/mongodb_exporter:0.40
+        ports:
+        - containerPort: 9216
+        env:
+        - name: MONGODB_URI
+          value: "mongodb://itsanla:070078@localhost:27017"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
       volumes:
       - name: mongodb-data
         persistentVolumeClaim:
