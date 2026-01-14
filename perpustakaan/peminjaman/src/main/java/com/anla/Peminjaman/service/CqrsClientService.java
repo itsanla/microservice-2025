@@ -47,7 +47,7 @@ public class CqrsClientService {
             "serviceName", "peminjaman",
             "aggregateId", entityId,
             "eventType", "DELETE",
-            "eventData", "{\\"deleted\\":true}",
+            "eventData", "{\"deleted\":true}",
             "timestamp", LocalDateTime.now().toString(),
             "version", 1L
         ));
