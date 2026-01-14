@@ -1,8 +1,10 @@
 package com.anla.cqrs.service;
 
 import com.anla.cqrs.config.MultiDatabaseConfig;
+import com.anla.cqrs.config.RabbitMQConfig;
 import com.anla.cqrs.event.Event;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class EventStoreService {
     
     private final MultiDatabaseConfig multiDatabaseConfig;
+    private final RabbitTemplate rabbitTemplate;
     private final Map<String, JdbcTemplate> jdbcTemplates = new ConcurrentHashMap<>();
     
     private JdbcTemplate getJdbcTemplate(String serviceName) {
@@ -34,6 +37,9 @@ public class EventStoreService {
             "INSERT INTO events (service_name, aggregate_id, event_type, event_data, timestamp, version) VALUES (?, ?, ?, ?, ?, ?)",
             event.getServiceName(), event.getAggregateId(), event.getEventType(),
             event.getEventData(), Timestamp.valueOf(event.getTimestamp()), event.getVersion());
+        
+        // Publish event to RabbitMQ for async processing
+        rabbitTemplate.convertAndSend(RabbitMQConfig.CQRS_EVENT_QUEUE, event);
     }
     
     public List<Map<String, Object>> findEventsByAggregate(String serviceName, String aggregateId) {
