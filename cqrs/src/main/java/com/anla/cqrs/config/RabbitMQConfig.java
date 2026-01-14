@@ -11,10 +11,16 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
     
     public static final String CQRS_EVENT_QUEUE = "cqrs.event.queue";
+    public static final String CQRS_COMMAND_QUEUE = "cqrs.command.queue";
     
     @Bean
     public Queue cqrsEventQueue() {
         return new Queue(CQRS_EVENT_QUEUE, true);
+    }
+    
+    @Bean
+    public Queue cqrsCommandQueue() {
+        return new Queue(CQRS_COMMAND_QUEUE, true);
     }
     
     @Bean

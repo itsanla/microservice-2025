@@ -1,4 +1,6 @@
 package com.anla.anggota.service;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import java.time.LocalDateTime;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +18,7 @@ public class CqrsClientService {
     private String cqrsUrl;
     
     private final RestTemplate restTemplate;
+    private final RabbitTemplate rabbitTemplate;
     
     public void save(Object data, String entityId) {
         restTemplate.postForObject(cqrsUrl + "/api/cqrs/anggota/command", 

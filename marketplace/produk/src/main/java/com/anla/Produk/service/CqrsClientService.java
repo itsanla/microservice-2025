@@ -1,10 +1,12 @@
-package com.anla.Produk.service;
+package com.anla.produk.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -16,20 +18,39 @@ public class CqrsClientService {
     private String cqrsUrl;
     
     private final RestTemplate restTemplate;
+    private final RabbitTemplate rabbitTemplate;
     
     public void save(Object data, String entityId) {
-        restTemplate.postForObject(cqrsUrl + "/api/cqrs/produk/command", 
-            Map.of("id", entityId, "eventType", "CREATE", "data", data), String.class);
+        rabbitTemplate.convertAndSend("cqrs.command.queue", Map.of(
+            "serviceName", "produk",
+            "aggregateId", entityId,
+            "eventType", "CREATE",
+            "eventData", toJson(data),
+            "timestamp", LocalDateTime.now().toString(),
+            "version", 1L
+        ));
     }
     
     public void update(Object data, String entityId) {
-        restTemplate.postForObject(cqrsUrl + "/api/cqrs/produk/command", 
-            Map.of("id", entityId, "eventType", "UPDATE", "data", data), String.class);
+        rabbitTemplate.convertAndSend("cqrs.command.queue", Map.of(
+            "serviceName", "produk",
+            "aggregateId", entityId,
+            "eventType", "UPDATE",
+            "eventData", toJson(data),
+            "timestamp", LocalDateTime.now().toString(),
+            "version", 1L
+        ));
     }
     
     public void delete(String entityId) {
-        restTemplate.postForObject(cqrsUrl + "/api/cqrs/produk/command", 
-            Map.of("id", entityId, "eventType", "DELETE", "data", Map.of("deleted", true)), String.class);
+        rabbitTemplate.convertAndSend("cqrs.command.queue", Map.of(
+            "serviceName", "produk",
+            "aggregateId", entityId,
+            "eventType", "DELETE",
+            "eventData", "{\\"deleted\\":true}",
+            "timestamp", LocalDateTime.now().toString(),
+            "version", 1L
+        ));
     }
     
     public Object findById(String entityId) {
@@ -48,6 +69,14 @@ public class CqrsClientService {
             return result != null ? result : List.of();
         } catch (Exception e) {
             return List.of();
+        }
+    }
+    
+    private String toJson(Object data) {
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(data);
+        } catch (Exception e) {
+            return "{}";
         }
     }
 }
