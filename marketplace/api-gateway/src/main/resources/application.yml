@@ -10,22 +10,22 @@ spring:
         webmvc:
           routes:
           - id: PRODUK-SERVICE
-            uri: lb://PRODUK-SERVICE
+            uri: http://produk
             predicates:
             - Path=/api/produk/**
           - id: PELANGGAN-SERVICE
-            uri: lb://PELANGGAN-SERVICE
+            uri: http://pelanggan
             predicates:
             - Path=/api/pelanggan/**
           - id: ORDER-SERVICE
-            uri: lb://ORDER-SERVICE
+            uri: http://order
             predicates:
             - Path=/api/order/**
 
 eureka:
   client:
     register-with-eureka: true
-    fetch-registry: true
+    fetch-registry: false
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:
