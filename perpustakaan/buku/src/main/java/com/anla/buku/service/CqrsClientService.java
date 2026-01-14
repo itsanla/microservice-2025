@@ -32,7 +32,7 @@ public class CqrsClientService {
             Map.of("id", entityId, "eventType", "DELETE", "data", Map.of("deleted", true)), String.class);
     }
     
-    @SuppressWarnings("unchecked")
+    
     public Object findById(String entityId) {
         try {
             return restTemplate.getForObject(
