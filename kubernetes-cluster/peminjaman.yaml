@@ -66,7 +66,6 @@ spec:
           value: "itsanla"
         - name: SPRING_RABBITMQ_PASSWORD
           value: "070078"
-          value: "5000"
         resources:
           requests:
             memory: "512Mi"
