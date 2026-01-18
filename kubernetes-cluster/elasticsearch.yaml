@@ -46,6 +46,14 @@ spec:
           value: "false"
         - name: ES_JAVA_OPTS
           value: "-Xms2g -Xmx2g"
+        - name: action.auto_create_index
+          value: "true"
+        - name: index.number_of_replicas
+          value: "0"
+        - name: xpack.monitoring.collection.enabled
+          value: "false"
+        - name: xpack.ml.enabled
+          value: "false"
         resources:
           requests:
             memory: "2Gi"

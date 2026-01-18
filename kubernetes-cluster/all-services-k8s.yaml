@@ -555,6 +555,14 @@ spec:
           value: "false"
         - name: ES_JAVA_OPTS
           value: "-Xms2g -Xmx2g"
+        - name: action.auto_create_index
+          value: "true"
+        - name: index.number_of_replicas
+          value: "0"
+        - name: xpack.monitoring.collection.enabled
+          value: "false"
+        - name: xpack.ml.enabled
+          value: "false"
         resources:
           requests:
             memory: "2Gi"
@@ -676,10 +684,12 @@ spec:
         args:
         - |
           until curl -s http://elasticsearch:9200/_cluster/health | grep -E '"status":"(yellow|green)"'; do
-            echo "Waiting for Elasticsearch cluster to be ready (yellow or green)..."
+            echo "Waiting for Elasticsearch cluster..."
             sleep 5
           done
-          echo "Elasticsearch is ready!"
+          echo "Elasticsearch ready, waiting 30s for background tasks..."
+          sleep 30
+          echo "Kibana starting!"
       containers:
       - name: kibana
         image: docker.elastic.co/kibana/kibana:8.11.0
@@ -690,6 +700,8 @@ spec:
           value: "http://elasticsearch"
         - name: ELASTICSEARCH_REQUESTTIMEOUT
           value: "60000"
+        - name: XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY
+          value: "min32characterstringforencryptionkey123"
         resources:
           requests:
             memory: "1Gi"

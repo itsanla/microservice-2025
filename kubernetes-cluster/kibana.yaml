@@ -35,10 +35,12 @@ spec:
         args:
         - |
           until curl -s http://elasticsearch:9200/_cluster/health | grep -E '"status":"(yellow|green)"'; do
-            echo "Waiting for Elasticsearch cluster to be ready (yellow or green)..."
+            echo "Waiting for Elasticsearch cluster..."
             sleep 5
           done
-          echo "Elasticsearch is ready!"
+          echo "Elasticsearch ready, waiting 30s for background tasks..."
+          sleep 30
+          echo "Kibana starting!"
       containers:
       - name: kibana
         image: docker.elastic.co/kibana/kibana:8.11.0
@@ -49,6 +51,8 @@ spec:
           value: "http://elasticsearch"
         - name: ELASTICSEARCH_REQUESTTIMEOUT
           value: "60000"
+        - name: XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY
+          value: "min32characterstringforencryptionkey123"
         resources:
           requests:
             memory: "1Gi"
