@@ -26,5 +26,5 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 
 konfigurasi ingress di kube master
 ```bash
-kubectl label nodes ip-172-31-26-74 ingress-ready=true
+kubectl label nodes <NAMA-NODE-MASTER> ingress-ready=true --overwrite
 ```

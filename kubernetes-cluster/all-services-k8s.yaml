@@ -669,6 +669,17 @@ spec:
       labels:
         app: kibana
     spec:
+      initContainers:
+      - name: wait-for-elasticsearch
+        image: curlimages/curl:8.5.0
+        command: ['sh', '-c']
+        args:
+        - |
+          until curl -s http://elasticsearch:9200/_cluster/health | grep -E '"status":"(yellow|green)"'; do
+            echo "Waiting for Elasticsearch cluster to be ready (yellow or green)..."
+            sleep 5
+          done
+          echo "Elasticsearch is ready!"
       containers:
       - name: kibana
         image: docker.elastic.co/kibana/kibana:8.11.0
