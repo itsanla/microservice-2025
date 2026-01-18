@@ -58,7 +58,7 @@ spec:
         - name: xpack.monitoring.collection.enabled
           value: "false"
         - name: xpack.ml.enabled
-          value: "false"
+          value: "true"
         - name: cluster.routing.allocation.disk.threshold_enabled
           value: "false"
         readinessProbe:
@@ -68,18 +68,6 @@ spec:
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
-        lifecycle:
-          postStart:
-            exec:
-              command:
-              - /bin/bash
-              - -c
-              - |
-                until curl -s http://localhost:9200/_cluster/health | grep -E '"status":"(yellow|green)"'; do
-                  sleep 5
-                done
-                curl -X PUT "http://localhost:9200/_settings" -H 'Content-Type: application/json' -d '{"index.number_of_replicas": 0}'
-                curl -X PUT "http://localhost:9200/_index_template/default-replicas" -H 'Content-Type: application/json' -d '{"index_patterns": ["*"], "priority": 1, "template": {"settings": {"number_of_replicas": 0}}}'
         resources:
           requests:
             memory: "2Gi"
