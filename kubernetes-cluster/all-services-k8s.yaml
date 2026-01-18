@@ -685,8 +685,8 @@ spec:
             echo "Waiting for Elasticsearch cluster..."
             sleep 5
           done
-          echo "Elasticsearch ready, waiting 30s for background tasks..."
-          sleep 30
+          echo "Elasticsearch ready, waiting 60s for background tasks..."
+          sleep 60
           echo "Kibana starting!"
       containers:
       - name: kibana
@@ -700,6 +700,22 @@ spec:
           value: "60000"
         - name: XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY
           value: "min32characterstringforencryptionkey123"
+        readinessProbe:
+          httpGet:
+            path: /api/status
+            port: 5601
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 6
+        livenessProbe:
+          httpGet:
+            path: /api/status
+            port: 5601
+          initialDelaySeconds: 120
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
         resources:
           requests:
             memory: "1Gi"
